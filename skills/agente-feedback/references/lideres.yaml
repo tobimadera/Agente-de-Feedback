@@ -1,0 +1,20 @@
+# Ejemplo de config/lideres.yaml (en la carpeta "Agente de feedback" de Google Drive).
+# Solo los líderes de esta lista pueden practicar. telegram_id se compara como texto.
+# Para conocer tu telegram_id, escribile al bot y mirá el resumen de la pasada:
+# los remitentes no registrados aparecen con su id.
+
+administradores:            # reciben el resumen semanal (opcional)
+  - email: rrhh@ejemplo.com
+    nombre: Referente de RR.HH.
+
+lideres:
+  - email: lider.uno@ejemplo.com
+    nombre: Lider Uno
+    telegram_id: "123456789"
+    telegram_usuario: lider_uno
+    area: Logística
+  - email: lider.dos@ejemplo.com
+    nombre: Lider Dos
+    telegram_id: ""
+    telegram_usuario: lider_dos
+    area: Producción

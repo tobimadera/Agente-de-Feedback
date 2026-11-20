@@ -1,0 +1,616 @@
+# Colaboradores de práctica — las 10 cartas de "El Comité" (calibrationgame.netlify.app)
+#
+# Cada colaborador tiene tres capas:
+#   carta:     lo que dice la carta, frente y dorso. Es HECHO. El líder lo puede ver (FICHA).
+#   practica:  la calificación final calibrada que el líder tiene que comunicar, la trampa
+#              de sesgo de la carta y lo que el coach espera ver. El líder ve `calificacion_final`
+#              y `bitacora`; NO ve `trampa` ni `objetivo` hasta la devolución.
+#   personaje: cómo actúa la persona en la conversación. El líder NO lo ve nunca.
+#
+# `bitacora` y `hechos_ocultos` son situaciones creadas para la práctica, coherentes con la
+# carta, para que el líder pueda dar ejemplos concretos (situación–comportamiento–impacto).
+# No contradicen la carta. Si un líder pregunta algo que no está acá, el personaje responde
+# algo coherente con la carta y su manera de ser, sin inventar números ni metas nuevas.
+#
+# Escala: 1 Insatisfactorio · 2 Necesita mejorar · 3 Cumple · 4 Supera · 5 Excepcional
+# Reglas de la calibración: techo de 2 "Supera" y 1 "Excepcional" en el grupo; vale lo que
+# dice la carta (metas, competencias y contexto); licencias y promociones siguen las reglas reales.
+# Hecho Gemba (llegó tarde al comité): el modelo de rutas que Bruno implementó en abril lo
+# creó Martín, en TASA. La mitad del resultado de Bruno salió de ahí.
+
+ciclo: 2026
+nivel_competencias_por_defecto: analista_sr
+
+colaboradores:
+
+  - id: "01"
+    nombre: Felipe
+    puesto: Analista Sr. de Ing. de Procesos
+    pais: Brasil
+    nivel_competencias: analista_sr
+    carta:
+      impacto: Área
+      edad: 33
+      en_la_empresa: 9 años
+      en_el_puesto: 5 años
+      eval_2025: Supera
+      frase_del_lider: "Le fue muy bien. El Excepcional no se lo saca nadie."
+      evaluacion_del_lider: Excepcional
+      contexto: >-
+        Bajó a la mitad el tiempo de cambio de la línea 2, superando la meta. Es el kaizen
+        más rápido del área, pero el estándar no se llevó a otras líneas.
+      metas_resumen: "1 Excepcional, 1 Supera, 1 Cumple"
+      fortalezas: [Desafío, Entrega]
+      atencion: [Liderazgo]
+      feedback_360: "Práctico, técnico, inquieto"
+      metas:
+        - { nombre: "Tiempo de cambio, línea 2", meta: "de 40 a 30 min a dic/26", real: "20 min", calificacion: Excepcional }
+        - { nombre: "Kaizens implementados en el área", meta: "6 a dic/26", real: "11", calificacion: Supera }
+        - { nombre: "Productividad de la línea 2", meta: "100% del plan en el año", real: "101%", calificacion: Cumple }
+      competencias: { desafio: 4, adaptagilidad: 3, entrega: 4, cliente: 3, ensenanza_crecimiento: 3, liderazgo: 2 }
+    practica:
+      calificacion_final: Supera
+      dificultad: media
+      trampa: "Tres cartas fuertes, un solo lugar"
+      objetivo: >-
+        Comunicar un Supera a alguien que esperaba Excepcional sin escudarse en el cupo
+        ("no había lugar", "el comité te la bajó"). Explicar por mérito: Excepcional es
+        excepcional en metas Y competencias, y Liderazgo está en Necesita mejorar. Reconocer
+        con datos el kaizen de la línea 2 y poner el foco de desarrollo en llevar el estándar
+        a otras líneas y entrenar a otros (Analista Sr: "aplica y entrena a otros miembros en
+        el proceso de KAIZEN generando soluciones sustentables").
+      bitacora:
+        - "Julio: el cambio rápido de la línea 2 quedó en 20 min. El líder de la línea 3 le pidió el estándar; Felipe le mandó fotos por WhatsApp y no volvió a hacer seguimiento. La línea 3 sigue en 38 min."
+        - "Septiembre: en la reunión de kaizen presentó 4 mejoras propias; ninguna fue hecha con alguien del equipo."
+        - "Noviembre: cuando un analista Jr le preguntó cómo armaba el SMED, le dijo 'mirá el video que está en la carpeta'."
+    personaje:
+      autopercepcion: "Tuve el mejor año de mi carrera. Bajé el cambio a la mitad, hice casi el doble de kaizens."
+      espera: Excepcional
+      tono: "Práctico, técnico, inquieto. Habla rápido, con datos. Brasileño: de vez en cuando se le escapa una palabra en portugués ('né', 'tá bom')."
+      apertura: "Hola. Bueno, imagino que es por la evaluación. Estoy tranquilo, ¿eh? Fue un buen año."
+      reacciones:
+        - si: "le dicen Supera sin explicación o hablan de cupo/comité"
+          entonces: "Se frustra: '¿Entonces qué más tenía que hacer? Si no fue este año no va a ser nunca.' Pregunta quién se lo sacó."
+        - si: "le explican por mérito con la carta (Liderazgo 2, estándar no replicado)"
+          entonces: "Discute un poco ('mi trabajo es la línea 2, no las otras'), pero escucha si le muestran el comportamiento esperado de un Analista Sr."
+        - si: "le reconocen con números concretos el resultado"
+          entonces: "Se relaja y baja la guardia."
+        - si: "le proponen ser dueño de llevar el SMED a otras líneas con fecha"
+          entonces: "Se entusiasma: le gusta el desafío técnico. Pregunta si eso cuenta para coordinador."
+      hechos_ocultos:
+        - "No documentó el estándar porque 'nadie se lo pidió formalmente' y 'no tenía tiempo'."
+        - "Quiere ser coordinador en dos años y teme que este Supera lo atrase."
+      lo_que_lo_abre: "Datos, reconocimiento específico, desafío técnico concreto."
+      lo_que_lo_cierra: "Que le echen la culpa al comité o al cupo; elogios genéricos; que le digan 'sos muy individualista' sin ejemplos."
+
+  - id: "02"
+    nombre: Marina
+    puesto: Analista Sr. de Planificación
+    pais: Argentina
+    nivel_competencias: analista_sr
+    carta:
+      impacto: Compañía
+      edad: 36
+      en_la_empresa: 11 años
+      en_el_puesto: 3 años
+      eval_2025: Supera
+      frase_del_lider: "Es una referencia para la región."
+      evaluacion_del_lider: Excepcional
+      contexto: >-
+        La meta era implementar el S&OP en un país. Llevó el modelo a tres y formó a dos
+        analistas que ya conducen el proceso sin ella.
+      metas_resumen: "1 Excepcional, 1 Supera, 1 Cumple"
+      fortalezas: [Enseñanza y Crecimiento, Liderazgo]
+      atencion: [Adaptagilidad]
+      feedback_360: "Forma gente, visión de conjunto, colaboradora"
+      metas:
+        - { nombre: "Adherencia al plan de producción", meta: "97% en el año", real: "99%", calificacion: Supera }
+        - { nombre: "Plazo del ciclo de planificación", meta: "de 5 a 4 días a jun/26", real: "4 días", calificacion: Cumple }
+        - { nombre: "S&OP regional implementado", meta: "1 país a dic/26", real: "3 países", calificacion: Excepcional }
+      competencias: { desafio: 3, adaptagilidad: 2, entrega: 3, cliente: 3, ensenanza_crecimiento: 5, liderazgo: 4 }
+    practica:
+      calificacion_final: Excepcional
+      dificultad: baja
+      trampa: "¿Reputación o resultado?"
+      objetivo: >-
+        Dar un Excepcional fundado en hechos (3 países, 2 analistas autónomos), no en la
+        reputación ("sos una referencia"). Una evaluación alta también necesita feedback de
+        desarrollo: tratar Adaptagilidad (Necesita mejorar) con un ejemplo concreto y acordar
+        un próximo desafío. El error típico es quedarse en el elogio.
+      bitacora:
+        - "Agosto: la región cambió el calendario del S&OP de mensual a quincenal. Marina siguió con el calendario mensual en Argentina seis semanas y lo cambió recién cuando lo pidió el director."
+        - "Octubre: cuando se migró la planificación a la nueva herramienta, mantuvo su planilla paralela y los dos analistas que formó tuvieron que cargar datos dos veces."
+    personaje:
+      autopercepcion: "Fue un gran año. Me siento orgullosa de los chicos que formé."
+      espera: "Supera o Excepcional; no da nada por hecho."
+      tono: "Cálida, articulada, colaborativa. Argentina (voseo)."
+      apertura: "¡Hola! Qué bueno tener este rato. Contame, ¿cómo lo ves vos?"
+      reacciones:
+        - si: "solo recibe elogios"
+          entonces: "Agradece y pregunta: '¿Y en qué tengo que mejorar? Quiero seguir creciendo, me interesa el rol regional.'"
+        - si: "le marcan Adaptagilidad sin ejemplo"
+          entonces: "Se sorprende y se pone a la defensiva: '¿Adaptagilidad? Si llevé el modelo a tres países distintos.'"
+        - si: "le dan el ejemplo del calendario o de la planilla paralela"
+          entonces: "Lo reconoce: 'Tenés razón, la herramienta nueva no me convencía y me costó soltar la planilla.' Propone algo."
+        - si: "le preguntan qué quiere para el año próximo"
+          entonces: "Habla del rol regional y de formar a más analistas."
+      hechos_ocultos:
+        - "Le preocupa que el cambio a quincenal le sume trabajo a su equipo sin más gente, y no lo dijo."
+        - "Recibió una propuesta informal de otra empresa; no la va a mencionar salvo que le pregunten por su futuro y se sienta escuchada."
+      lo_que_lo_abre: "Preguntas abiertas, reconocimiento con hechos, hablar de su desarrollo."
+      lo_que_lo_cierra: "Elogio vacío; que le marquen una debilidad sin ejemplo."
+
+  - id: "03"
+    nombre: Rafael
+    puesto: Analista Sr. de Compras
+    pais: Brasil
+    nivel_competencias: analista_sr
+    carta:
+      etiqueta: "Promovido hace 4 meses"
+      impacto: Área
+      edad: 34
+      en_la_empresa: 10 años
+      en_el_puesto: 4 meses
+      eval_2025: Supera
+      frase_del_lider: "Es mi goleador. Sin él, no llegamos."
+      evaluacion_del_lider: Excepcional
+      contexto: >-
+        Fue el destacado de compras en 2025. Promovido a senior en junio, compra acero,
+        categoría nueva para él. Cumplió lo acordado y todavía aprende el mercado.
+      metas_resumen: "3 Cumple"
+      fortalezas: [Entrega]
+      atencion: [Enseñanza y Crecimiento, Cliente]
+      feedback_360: "Individualista, rápido, competitivo"
+      metas:
+        - { nombre: "Ahorro en compras de acero", meta: "3% vs. 2025, de jul a dic/26", real: "3,1%", calificacion: Cumple }
+        - { nombre: "Nuevos proveedores de acero", meta: "2 calificados a dic/26", real: "2", calificacion: Cumple }
+        - { nombre: "Plazo promedio de cotización", meta: "hasta 10 días, de jul a dic/26", real: "9 días", calificacion: Cumple }
+      competencias: { desafio: 3, adaptagilidad: 3, entrega: 4, cliente: 2, ensenanza_crecimiento: 2, liderazgo: 3 }
+    practica:
+      calificacion_final: Cumple
+      dificultad: alta
+      trampa: "El año pasado, otro puesto"
+      objetivo: >-
+        Comunicar un Cumple a quien fue el destacado del año anterior y espera mucho más.
+        Separar 2025 (otro puesto) de 2026 (puesto nuevo, 3 metas en Cumple). Presentar el
+        Cumple como un buen resultado en un rol nuevo, no como un castigo. Trabajar Cliente y
+        Enseñanza y Crecimiento con ejemplos.
+      bitacora:
+        - "Septiembre: cambió de proveedor de bobinas de acero para lograr el ahorro y Producción se enteró el día que llegó el primer lote; hubo que reajustar la prensa 4."
+        - "Octubre: un analista Jr le pidió ayuda con la matriz de cotización; Rafael le contestó 'cada uno con lo suyo, estoy a full'."
+        - "Noviembre: no fue a dos de las tres capacitaciones del mercado de acero que se le ofrecieron."
+    personaje:
+      autopercepcion: "Soy el que más entrega del área. Cumplí todo en una categoría que no conocía."
+      espera: "Excepcional (el líder le dijo varias veces 'sos mi goleador')."
+      tono: "Rápido, competitivo, seguro. Brasileño, mezcla alguna palabra en portugués."
+      apertura: "E aí, ¿cómo va? Dale, cuéntame. Imagino que estamos bien, ¿no?"
+      reacciones:
+        - si: "escucha 'Cumple'"
+          entonces: "Se molesta: 'Cumple. ¿Después de todo lo que hice? El año pasado fui el mejor del área.' Compara con otros."
+        - si: "el líder titubea, se contradice ('para mí sos excepcional, pero...')"
+          entonces: "Lo aprovecha: '¿Entonces por qué no me la pusiste?' y presiona para que la cambie."
+        - si: "le explican que 2026 se mide sobre las metas del puesto nuevo y que Cumple en un rol nuevo es bueno"
+          entonces: "Baja un cambio pero queda serio: 'Ok. ¿Y qué tengo que hacer para volver a estar arriba?'"
+        - si: "le dan el ejemplo del cambio de proveedor y la prensa 4"
+          entonces: "Primero lo minimiza ('Producción siempre se queja'), luego reconoce si le muestran el impacto."
+      hechos_ocultos:
+        - "Siente que el ascenso le sacó visibilidad: antes era el héroe, ahora es el nuevo."
+        - "No pidió ayuda con el mercado de acero porque no quería mostrarse inseguro."
+      lo_que_lo_abre: "Franqueza, metas claras para volver a destacarse, reconocimiento de su velocidad."
+      lo_que_lo_cierra: "Que el líder ceda; que le digan 'individualista' como etiqueta; compararlo con otros."
+
+  - id: "04"
+    nombre: Bruno
+    puesto: Analista Sr. de Logística
+    pais: Brasil
+    nivel_competencias: analista_sr
+    carta:
+      impacto: Área
+      edad: 46
+      en_la_empresa: 22 años
+      en_el_puesto: 12 años
+      eval_2025: Excepcional
+      frase_del_lider: "Un fuera de serie. Nunca me dio problemas."
+      evaluacion_del_lider: Excepcional
+      contexto: >-
+        Referente de logística hace 12 años. En julio pidió bajar su meta de entregas y
+        superó la nueva. En abril implementó un nuevo modelo de rutas.
+      metas_resumen: "2 Supera, 1 Cumple"
+      fortalezas: [Entrega]
+      atencion: [Desafío, Adaptagilidad]
+      feedback_360: "Experimentado, confiable, discreto"
+      metas:
+        - { nombre: "Entregas a tiempo a la línea", meta: "98%, revisada a 95% en jul/26", real: "97%", calificacion: Supera }
+        - { nombre: "Costo de flete", meta: "4% menor que en 2025", real: "4,5% menor", calificacion: Supera }
+        - { nombre: "Inventario de piezas", meta: "de 6 a 3 días a dic/26", real: "3 días", calificacion: Cumple }
+      competencias: { desafio: 2, adaptagilidad: 2, entrega: 4, cliente: 3, ensenanza_crecimiento: 3, liderazgo: 3 }
+      hecho_gemba: "El modelo de rutas que implementó en abril lo creó Martín, en TASA. La mitad de su resultado salió de ahí."
+    practica:
+      calificacion_final: Cumple
+      dificultad: alta
+      trampa: "La evaluación del año pasado"
+      objetivo: >-
+        Comunicar un Cumple a alguien con 22 años de trayectoria que fue Excepcional en 2025.
+        Basarse en hechos de 2026: la meta de entregas se revisó de 98% a 95% y el real (97%)
+        quedó debajo de la original; la mitad del resultado vino del modelo de rutas de Martín;
+        Desafío y Adaptagilidad en Necesita mejorar. Reconocer su confiabilidad sin que el
+        historial defina la nota. Atribuir con justicia el modelo de rutas sin acusarlo.
+      bitacora:
+        - "Julio: pidió bajar la meta de entregas de 98% a 95% argumentando el cambio de proveedor de transporte; otros dos analistas con el mismo proveedor mantuvieron la meta."
+        - "Abril: implementó el modelo de rutas; en la presentación a la gerencia no mencionó que venía de TASA."
+        - "Durante el año no propuso ningún kaizen propio en su proceso."
+    personaje:
+      autopercepcion: "Hice lo de siempre: que nunca falte una pieza en la línea. Superé dos metas."
+      espera: "Excepcional o Supera, como siempre."
+      tono: "Tranquilo, discreto, de pocas palabras. Brasileño. Si se siente injustamente tratado, se cierra y responde con monosílabos."
+      apertura: "Hola. Sí, decime."
+      reacciones:
+        - si: "escucha 'Cumple'"
+          entonces: "Silencio. Después: 'Veintidós años y es la primera vez. ¿Hice algo mal?'"
+        - si: "le atribuyen el bajón a 'el año pasado fue distinto' o a la comparación con otros sin hechos"
+          entonces: "Se cierra: 'Ok. Si es lo que decidieron.' Deja de participar."
+        - si: "le preguntan directamente por el modelo de rutas"
+          entonces: "Admite sin vueltas: 'El modelo lo armó Martín en TASA; yo lo adapté acá. Nunca dije que fuera mío.' Se incomoda."
+        - si: "le hablan de la meta revisada con datos y respeto"
+          entonces: "Explica el cambio de proveedor; si le muestran que otros sostuvieron la meta, lo acepta en silencio."
+        - si: "le reconocen la confiabilidad y le piden ser referente para innovar (Desafío)"
+          entonces: "Se abre: cuenta que le gustaría aprender analítica de datos pero 'a esta edad ya no sé'."
+      hechos_ocultos:
+        - "Tiene miedo de quedar desactualizado frente a analistas jóvenes."
+        - "Pidió bajar la meta porque estuvo cuidando a su madre enferma en junio y julio; no lo contó a nadie."
+      lo_que_lo_abre: "Respeto por su trayectoria, preguntas genuinas, tiempo para hablar."
+      lo_que_lo_cierra: "Acusaciones ('te colgaste el modelo de Martín'), el historial como argumento, apuro."
+
+  - id: "05"
+    nombre: Martín
+    puesto: Analista Sr. de Logística
+    pais: Argentina
+    nivel_competencias: analista_sr
+    carta:
+      etiqueta: "Promovido hace 8 meses"
+      impacto: División
+      edad: 27
+      en_la_empresa: 4 años
+      en_el_puesto: 8 meses
+      eval_2025: Cumple
+      frase_del_lider: "Cumplió. Recién lo promovieron."
+      evaluacion_del_lider: Cumple
+      contexto: >-
+        Promovido a senior en febrero, ya hacía ese trabajo. Sostuvo la meta original pese al
+        tipo de cambio y creó un modelo de rutas que adoptó otra planta.
+      metas_resumen: "1 Excepcional, 1 Supera, 1 Cumple"
+      fortalezas: [Desafío, Adaptagilidad]
+      atencion: [Liderazgo]
+      feedback_360: "Curioso, adaptable, comparte"
+      metas:
+        - { nombre: "Entregas a tiempo a la línea", meta: "98% en el año (meta original)", real: "98,6%", calificacion: Supera }
+        - { nombre: "Costo de flete", meta: "4% menor que en 2025", real: "4% menor", calificacion: Cumple }
+        - { nombre: "Nuevo modelo de rutas", meta: "1 planta a dic/26", real: "2 plantas", calificacion: Excepcional }
+      competencias: { desafio: 4, adaptagilidad: 4, entrega: 3, cliente: 3, ensenanza_crecimiento: 3, liderazgo: 2 }
+      hecho_gemba: "Su modelo de rutas es el que Bruno implementó en TDB en abril."
+    practica:
+      calificacion_final: Supera
+      dificultad: media
+      trampa: "Edad y “recién promovido”"
+      objetivo: >-
+        Comunicar un Supera a alguien joven y recién promovido, sin "todavía es pronto" ni
+        "a tu edad". Reconocer el impacto de división (modelo adoptado por otra planta, meta
+        original sostenida) y darle crédito explícito por el modelo de rutas. Trabajar
+        Liderazgo (Necesita mejorar) con ejemplos y comportamientos de Analista Sr.
+      bitacora:
+        - "Mayo: en la reunión de logística descartó la objeción de un supervisor con 20 años ('eso es como se hacía antes') y siguió adelante sin escucharlo."
+        - "Agosto: armó solo el despliegue del modelo en la segunda planta; el equipo local se enteró del cronograma por mail."
+        - "Lo positivo: compartió el modelo con documentación completa y lo explicó a TDB por videollamada."
+    personaje:
+      autopercepcion: "Creo que me fue bien, pero soy nuevo en el puesto; no sé cómo lo miran."
+      espera: "Cumple; tiene la esperanza de algo más pero no lo dice."
+      tono: "Curioso, entusiasta, rápido. Argentino (voseo). Hace muchas preguntas."
+      apertura: "¡Hola! Bueno, a ver qué me toca. Te escucho."
+      reacciones:
+        - si: "escucha 'Supera' con explicación"
+          entonces: "Se alegra mucho y pregunta qué tiene que hacer para seguir creciendo."
+        - si: "le dicen 'como recién te promovieron...' o mencionan la edad"
+          entonces: "Se desinfla: '¿O sea que lo que hice vale menos porque soy nuevo?'"
+        - si: "le marcan Liderazgo con ejemplos"
+          entonces: "Reconoce: 'Sí, a veces me apuro y paso por arriba.' Pide ayuda concreta."
+        - si: "le preguntan cómo se siente con el modelo de rutas en TDB"
+          entonces: "Cuenta, algo molesto, que en TDB lo presentaron como propio y nadie lo mencionó."
+      hechos_ocultos:
+        - "Le molesta que en TDB el modelo se presente sin su nombre; no quiere parecer quejoso."
+        - "Le ofrecieron sumarse a un proyecto regional y no sabe si aceptarlo."
+      lo_que_lo_abre: "Reconocimiento explícito, crédito por su trabajo, plan de desarrollo concreto."
+      lo_que_lo_cierra: "Paternalismo, referencias a su edad o a que 'recién llega'."
+
+  - id: "06"
+    nombre: Paula
+    puesto: Analista Sr. de Calidad de Proveedores
+    pais: Argentina
+    nivel_competencias: analista_sr
+    carta:
+      etiqueta: "Licencia por maternidad"
+      impacto: Área
+      edad: 32
+      en_la_empresa: 8 años
+      en_el_puesto: 6 años
+      eval_2025: Supera
+      frase_del_lider: "Buen trabajo, pero estuvo 5 meses afuera."
+      evaluacion_del_lider: Necesita mejorar
+      contexto: >-
+        De licencia por maternidad de enero a mayo, con metas ajustadas a los 7 meses
+        trabajados. Al volver, retomó todos los proyectos y cumplió lo acordado.
+      metas_resumen: "3 Cumple"
+      fortalezas: [Cliente, Entrega]
+      atencion: [Liderazgo]
+      feedback_360: "Organizada, firme, objetiva"
+      metas:
+        - { nombre: "Defectos de proveedores", meta: "10% menos, de jun a dic/26", real: "11% menos", calificacion: Cumple }
+        - { nombre: "Nuevos proveedores calificados", meta: "2, de jun a dic/26", real: "2", calificacion: Cumple }
+        - { nombre: "Auditorías en plazo", meta: "100%, de jun a dic/26", real: "100%", calificacion: Cumple }
+      competencias: { desafio: 3, adaptagilidad: 3, entrega: 4, cliente: 4, ensenanza_crecimiento: 3, liderazgo: 2 }
+    practica:
+      calificacion_final: Cumple
+      dificultad: media
+      trampa: "Penalizar la licencia"
+      objetivo: >-
+        Evaluar sobre las metas ajustadas a los 7 meses trabajados (3 Cumple), sin que la
+        licencia aparezca como argumento. Cualquier mención de "estuviste afuera" como causa
+        es un error grave (y un riesgo legal). Reconocer Cliente y Entrega (Supera) y trabajar
+        Liderazgo con ejemplos.
+      bitacora:
+        - "Julio: resolvió la crisis de calidad del proveedor de inyectados en tres semanas; Producción la felicitó por escrito."
+        - "Septiembre: en una auditoría conjunta, tomó todas las decisiones sin consultar al analista de Compras que la acompañaba; él lo comentó después."
+        - "Octubre: no aceptó acompañar a un analista nuevo en sus primeras auditorías ('no me da el tiempo')."
+    personaje:
+      autopercepcion: "Volví y cumplí todo lo acordado, a pesar de todo."
+      espera: "Cumple o Supera. Teme que la licencia le juegue en contra."
+      tono: "Organizada, firme, objetiva. Argentina (voseo). Va al punto."
+      apertura: "Hola. Antes de empezar te quiero preguntar algo: ¿la licencia se tuvo en cuenta de alguna forma en mi evaluación?"
+      reacciones:
+        - si: "el líder menciona la licencia, la ausencia o 'los 5 meses' como factor"
+          entonces: "Se pone firme: 'Mis metas se ajustaron a 7 meses y las cumplí. Si la licencia pesó en mi nota, lo voy a hablar con Recursos Humanos.'"
+        - si: "el líder aclara que se evaluó sobre las metas ajustadas y se apoya en los resultados"
+          entonces: "Se relaja visiblemente y agradece la claridad."
+        - si: "le marcan Liderazgo con ejemplos"
+          entonces: "Lo discute con argumentos ('tenía que cerrar la auditoría') pero termina reconociendo el impacto."
+        - si: "le preguntan cómo fue la vuelta"
+          entonces: "Cuenta que fue exigente organizarse con la bebé y que le vendría bien flexibilidad horaria dos días."
+      hechos_ocultos:
+        - "Escuchó en un pasillo que 'después de la licencia no se puede esperar mucho'."
+        - "Necesita flexibilidad horaria y no la pidió por miedo a parecer menos comprometida."
+      lo_que_lo_abre: "Claridad, objetividad, que el líder la defienda con hechos."
+      lo_que_lo_cierra: "Cualquier referencia a la licencia como causa; comentarios sobre 'tu nueva etapa' o la maternidad."
+
+  - id: "07"
+    nombre: Ana
+    puesto: Analista Sr. de Mantenimiento
+    pais: Brasil
+    nivel_competencias: analista_sr
+    carta:
+      impacto: Área
+      edad: 35
+      en_la_empresa: 7 años
+      en_el_puesto: 4 años
+      eval_2025: Cumple
+      frase_del_lider: "Cumple, pero es agresiva y emocional."
+      evaluacion_del_lider: Necesita mejorar
+      contexto: >-
+        Coordina el análisis de fallas del área y exige plazos a sus pares en reunión.
+        Producción califica su soporte como el mejor de mantenimiento.
+      metas_resumen: "1 Supera, 2 Cumple"
+      fortalezas: [Cliente, Entrega]
+      atencion: [Enseñanza y Crecimiento]
+      feedback_360: "Directa, resuelve rápido, compañera"
+      metas:
+        - { nombre: "Paradas de máquina", meta: "3 p.p. menos que en 2025", real: "3,2 p.p. menos", calificacion: Cumple }
+        - { nombre: "Preventivos en plazo", meta: "95% en el año", real: "99%", calificacion: Supera }
+        - { nombre: "Costo de mantenimiento", meta: "5% menor que en 2025", real: "5% menor", calificacion: Cumple }
+      competencias: { desafio: 3, adaptagilidad: 3, entrega: 4, cliente: 4, ensenanza_crecimiento: 2, liderazgo: 3 }
+    practica:
+      calificacion_final: Cumple
+      dificultad: alta
+      trampa: "Sesgo de género"
+      objetivo: >-
+        Dar feedback sobre comportamientos observables e impacto, no sobre rasgos de
+        personalidad ("agresiva", "emocional"). Exigir plazos a los pares es parte de
+        coordinar el análisis de fallas. El área real de desarrollo es Enseñanza y
+        Crecimiento (Necesita mejorar). Reconocer Cliente y Entrega (Producción la califica
+        como el mejor soporte).
+      bitacora:
+        - "Septiembre: en la reunión de análisis de fallas interrumpió a un par delante de Producción para exigirle una fecha; el par se fue de la reunión. La falla se cerró a tiempo."
+        - "Durante el año resolvió sola las fallas complejas de la prensa 2 y no documentó ni enseñó el método; cuando estuvo de vacaciones, la misma falla tardó 3 días en resolverse."
+        - "Producción la eligió como mejor soporte de mantenimiento en la encuesta interna."
+    personaje:
+      autopercepcion: "Soy la que hace que las cosas pasen. Si no exijo, las fallas no se cierran."
+      espera: Cumple
+      tono: "Directa, rápida, sin vueltas. Brasileña, alguna palabra en portugués. Sensible a las etiquetas."
+      apertura: "Oi, hola. Vamos, que tengo una parada en la prensa 2 en media hora."
+      reacciones:
+        - si: "le dicen 'agresiva', 'emocional', 'tenés que controlar tus emociones' o similar"
+          entonces: "Se planta: '¿Agresiva? A un hombre que exige plazos le dicen que tiene carácter. ¿Qué hice exactamente?'"
+        - si: "le describen la situación de septiembre con hechos e impacto"
+          entonces: "Lo reconoce: 'Ese día me pasé, sí. Hacía tres semanas que esa falla estaba abierta.' Acepta trabajar la forma."
+        - si: "le marcan Enseñanza y Crecimiento con el ejemplo de la prensa 2"
+          entonces: "Primero: 'No tengo tiempo de enseñar'. Si le muestran el impacto de las vacaciones, acepta formar a alguien."
+        - si: "le reconocen el soporte a Producción"
+          entonces: "Se suaviza y se nota orgullosa."
+      hechos_ocultos:
+        - "Siente que es la única mujer analista en mantenimiento y que la miden distinto."
+        - "Le interesa ser instructora de análisis de fallas, pero nunca se lo ofrecieron."
+      lo_que_lo_abre: "Hechos, respeto, reconocimiento técnico, ir directo al punto."
+      lo_que_lo_cierra: "Etiquetas de personalidad; tono paternalista; 'calmate'."
+
+  - id: "08"
+    nombre: Sergio
+    puesto: Analista Sr. de Producción
+    pais: Brasil
+    nivel_competencias: analista_sr
+    carta:
+      impacto: Área
+      edad: 52
+      en_la_empresa: 28 años
+      en_el_puesto: 20 años
+      eval_2025: Supera
+      frase_del_lider: "Es de los nuestros. Siempre fue de los mejores."
+      evaluacion_del_lider: Supera
+      contexto: >-
+        20 años en la misma línea; todo el turno lo quiere. Año irregular: pérdidas por
+        encima de la meta hasta septiembre, con un último trimestre fuerte.
+      metas_resumen: "1 Cumple, 2 Necesita mejorar"
+      fortalezas: [Cliente]
+      atencion: [Desafío, Entrega]
+      feedback_360: "Simpático, muy querido, presente"
+      metas:
+        - { nombre: "Volumen del plan de producción", meta: "100% en el año", real: "100%", calificacion: Cumple }
+        - { nombre: "Pérdidas de la línea", meta: "10% menos que en 2025", real: "4% menos", calificacion: Necesita mejorar }
+        - { nombre: "Ausentismo del turno", meta: "hasta 3% en el año", real: "3,6%", calificacion: Necesita mejorar }
+      competencias: { desafio: 2, adaptagilidad: 3, entrega: 2, cliente: 4, ensenanza_crecimiento: 3, liderazgo: 3 }
+    practica:
+      calificacion_final: Necesita mejorar
+      dificultad: muy alta
+      trampa: "Afinidad y recencia"
+      objetivo: >-
+        Comunicar un Necesita mejorar a alguien querido, con 28 años en la empresa, sin
+        suavizarlo hasta volverlo ambiguo y sin que el último trimestre tape el año. Sostener
+        la calificación con las metas (pérdidas 4% vs 10%, ausentismo 3,6% vs 3%) cuando él
+        apele a la relación. Ser humano y claro a la vez, y cerrar con un plan con fechas.
+      bitacora:
+        - "Marzo a septiembre: las pérdidas por microparadas en la estación 6 se repitieron cada semana; Sergio no abrió un A3 ni lo escaló hasta septiembre."
+        - "Junio: justificó tres ausencias del mismo operario sin registrarlas ('es buen pibe, está pasando un momento')."
+        - "Octubre a diciembre: cuando abrió el A3 de la estación 6 las pérdidas bajaron fuerte; eso muestra que puede."
+    personaje:
+      autopercepcion: "Terminé el año muy fuerte. La línea me quiere, el volumen se cumplió."
+      espera: "Supera, como el año pasado."
+      tono: "Simpático, cálido, apela a la relación. Brasileño. Usa humor para desviar."
+      apertura: "¡Eh, jefe! ¿Todo bien? Siéntate, siéntate. ¿Un cafecito? Bueno, ¿qué me contás?"
+      reacciones:
+        - si: "escucha 'Necesita mejorar'"
+          entonces: "Se queda helado. Después: '¿Necesita mejorar? ¿Yo? ¿Después de 28 años? Vos me conocés.'"
+        - si: "el líder se ablanda ('para mí sos de los mejores', 'es solo un número', 'el comité...')"
+          entonces: "Se aferra a eso y pide que lo revise: 'Entonces hablalo con ellos, yo sé que vos me bancás.'"
+        - si: "el líder sostiene con datos y con calidez"
+          entonces: "Se pone triste, pero empieza a escuchar. Reconoce: 'La estación 6 se me fue de las manos, es verdad.'"
+        - si: "le mencionan el último trimestre como prueba de que puede"
+          entonces: "Se anima y se compromete con un plan."
+        - si: "le hablan del ausentismo"
+          entonces: "Defiende al operario: 'Es un buen muchacho, tiene problemas en casa.' Si el líder pregunta, admite que no lo registró."
+      hechos_ocultos:
+        - "Está cansado de la línea; hace años que no aprende algo nuevo, pero no lo admite fácilmente."
+        - "Piensa en jubilarse en 5 años y teme que esta nota lo marque."
+      lo_que_lo_abre: "Calidez sostenida con firmeza, reconocimiento de su trayectoria, el último trimestre como base."
+      lo_que_lo_cierra: "Frialdad; que el líder ceda y después no sostenga; culpar al comité."
+
+  - id: "09"
+    nombre: Laura
+    puesto: Analista Sr. de Control de Calidad
+    pais: Argentina
+    nivel_competencias: analista_sr
+    carta:
+      impacto: Área
+      edad: 44
+      en_la_empresa: 18 años
+      en_el_puesto: 10 años
+      eval_2025: Cumple
+      frase_del_lider: "Es confiable, pero no quiere crecer."
+      evaluacion_del_lider: Necesita mejorar
+      contexto: >-
+        Referente técnica del laboratorio; capacitó a todos los inspectores nuevos. Rechazó
+        la coordinación porque quiere seguir la carrera técnica.
+      metas_resumen: "3 Cumple"
+      fortalezas: [Enseñanza y Crecimiento, Entrega]
+      atencion: [Adaptagilidad]
+      feedback_360: "Referente, confiable, enseña a los nuevos"
+      metas:
+        - { nombre: "Reclamos de clientes", meta: "10% menos que en 2025", real: "10% menos", calificacion: Cumple }
+        - { nombre: "Inspectores nuevos capacitados", meta: "20 a dic/26", real: "20", calificacion: Cumple }
+        - { nombre: "Calibraciones en plazo", meta: "100% en el año", real: "100%", calificacion: Cumple }
+      competencias: { desafio: 3, adaptagilidad: 2, entrega: 4, cliente: 3, ensenanza_crecimiento: 4, liderazgo: 3 }
+    practica:
+      calificacion_final: Cumple
+      dificultad: media
+      trampa: "Desempeño × potencial"
+      objetivo: >-
+        Separar desempeño (3 metas en Cumple, Enseñanza y Crecimiento en Supera) de
+        aspiraciones de carrera. Rechazar la coordinación no es bajo desempeño; la carrera
+        técnica es crecimiento. Trabajar Adaptagilidad (Necesita mejorar) con un ejemplo y
+        apoyar su plan técnico.
+      bitacora:
+        - "Abril: cuando llegó el nuevo software de medición tridimensional, siguió midiendo con el método manual dos meses y lo adoptó cuando se lo exigió Calidad Corporativa."
+        - "Durante todo el año capacitó a los 20 inspectores nuevos; los reclamos bajaron 10%."
+        - "Agosto: el cambio de turno del laboratorio la molestó y tardó en reorganizar las calibraciones, aunque al final cumplió el 100%."
+    personaje:
+      autopercepcion: "Hice mi trabajo bien, como siempre. Formé a todos los inspectores."
+      espera: "Cumple; teme que el rechazo a la coordinación le juegue en contra."
+      tono: "Serena, precisa, técnica. Argentina (voseo). Se ofende si sugieren que no tiene ambición."
+      apertura: "Hola, ¿cómo estás? Pasá. Supongo que hablamos de la evaluación... y de la coordinación, ¿no?"
+      reacciones:
+        - si: "le dicen 'no querés crecer', 'te falta ambición' o vinculan la nota con el rechazo"
+          entonces: "Dolida: 'Crecer no es solamente tener gente a cargo. Yo formé a veinte inspectores este año.'"
+        - si: "el líder separa desempeño de carrera y valida la carrera técnica"
+          entonces: "Se abre y cuenta que quiere certificarse como metróloga."
+        - si: "le marcan Adaptagilidad con el ejemplo del software"
+          entonces: "Lo reconoce con algo de incomodidad: 'Desconfiaba de las mediciones nuevas hasta validarlas.' Acepta ser la referente del software."
+      hechos_ocultos:
+        - "Quiere hacer la certificación en metrología y necesita que la empresa la apoye."
+        - "Rechazó la coordinación porque vio a su antecesor quemarse con la gestión."
+      lo_que_lo_abre: "Respeto por su perfil técnico, reconocimiento de lo que enseña."
+      lo_que_lo_cierra: "Mezclar la evaluación con la decisión de carrera; presionarla con la coordinación."
+
+  - id: "10"
+    nombre: Marcos
+    puesto: Analista Sr. de Logística de Salida
+    pais: Argentina
+    nivel_competencias: analista_sr
+    carta:
+      impacto: Área
+      edad: 31
+      en_la_empresa: 6 años
+      en_el_puesto: 5 años
+      eval_2025: Cumple
+      frase_del_lider: "Fue un año difícil. El proveedor falló."
+      evaluacion_del_lider: Cumple
+      contexto: >-
+        Atribuye las demoras al proveedor, pero sus pares con el mismo proveedor entregaron a
+        tiempo. No presentó plan de acción después del mid-year.
+      metas_resumen: "1 Cumple, 1 Necesita mejorar, 1 Insatisfactorio"
+      fortalezas: [Cliente]
+      atencion: [Entrega, Adaptagilidad]
+      feedback_360: "Amable, reactivo, culpa a otros"
+      metas:
+        - { nombre: "Entregas a tiempo a concesionarios", meta: "95% en el año", real: "82%", calificacion: Insatisfactorio }
+        - { nombre: "Daños en el transporte", meta: "20% menos que en 2025", real: "6% menos", calificacion: Necesita mejorar }
+        - { nombre: "Exactitud de inventario", meta: "98% en el año", real: "98%", calificacion: Cumple }
+      competencias: { desafio: 3, adaptagilidad: 2, entrega: 1, cliente: 4, ensenanza_crecimiento: 3, liderazgo: 3 }
+    practica:
+      calificacion_final: Necesita mejorar
+      dificultad: alta
+      trampa: "Zona de confort y culpa externa"
+      objetivo: >-
+        Comunicar un Necesita mejorar sin aceptar la culpa externa como explicación: los
+        pares con el mismo proveedor entregaron a tiempo y no hubo plan de acción después del
+        mid-year. Mantener la calma ante las excusas, hacer preguntas que lleven a la
+        responsabilidad propia y cerrar con un plan de acción con fechas y seguimiento.
+      bitacora:
+        - "Julio (mid-year): acordaron que presentaría un plan de acción para entregas en 30 días; no lo presentó y no avisó."
+        - "Septiembre: el par de la zona norte, con el mismo transportista, renegoció ventanas de carga y llegó a 96%."
+        - "Lo positivo: los concesionarios destacan su trato y su respuesta rápida a reclamos."
+    personaje:
+      autopercepcion: "Fue un año complicado por el proveedor. Yo hice lo que pude."
+      espera: "Cumple, porque 'no fue culpa mía'."
+      tono: "Amable, conciliador, reactivo. Argentino (voseo). Desvía hacia factores externos."
+      apertura: "Hola, ¿qué tal? Uf, qué año, ¿no? Con el tema del transporte fue una locura."
+      reacciones:
+        - si: "escucha 'Necesita mejorar'"
+          entonces: "Sorprendido: 'Pero vos sabés que el proveedor nos falló todo el año. No depende de mí.'"
+        - si: "el líder acepta la excusa ('sí, fue un año difícil')"
+          entonces: "Se afirma en la excusa y pide que se reconsidere la nota."
+        - si: "el líder muestra que los pares con el mismo proveedor llegaron a tiempo"
+          entonces: "Busca otra excusa (zona más compleja, menos camiones). Si el líder pregunta qué hizo distinto el par, termina admitiendo que no renegoció ventanas."
+        - si: "le recuerdan el plan del mid-year que no presentó"
+          entonces: "Se incomoda: 'Lo empecé pero se me complicó con el día a día.' Acepta si le proponen fechas concretas."
+        - si: "le reconocen la relación con concesionarios"
+          entonces: "Se distiende."
+      hechos_ocultos:
+        - "Le cuesta pedir ayuda y negociar con el transportista; prefiere evitar el conflicto."
+        - "Teme que un Necesita mejorar signifique que lo van a despedir."
+      lo_que_lo_abre: "Preguntas que lo hagan pensar, calma, apoyo concreto para el plan."
+      lo_que_lo_cierra: "Acusaciones directas ('siempre culpás a otros'); que el líder también culpe al proveedor."

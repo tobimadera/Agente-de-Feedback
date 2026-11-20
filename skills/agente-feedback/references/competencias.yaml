@@ -1,0 +1,209 @@
+# Anexo – Competencias TLAC: comportamientos esperados por nivel
+# Transcripción fiel del manual de la organización. Es la única fuente para decir
+# "qué se espera" de una competencia en un nivel. No agregues comportamientos.
+#
+# Escala de evaluación (igual para metas y competencias):
+escala:
+  1: { nombre: Insatisfactorio,   definicion: "No alcanza las metas de forma consistente." }
+  2: { nombre: Necesita mejorar,  definicion: "Alcanza las metas parcialmente." }
+  3: { nombre: Cumple,            definicion: "Alcanza las metas de forma consistente." }
+  4: { nombre: Supera,            definicion: "Logro superior de las metas." }
+  5: { nombre: Excepcional,       definicion: "Excepcional en metas y competencias." }
+
+competencias: [desafio, adaptagilidad, entrega, cliente, ensenanza_crecimiento, liderazgo]
+nombres:
+  desafio: Desafío
+  adaptagilidad: Adaptagilidad
+  entrega: Entrega
+  cliente: Cliente
+  ensenanza_crecimiento: Enseñanza y Crecimiento
+  liderazgo: Liderazgo
+
+# Liderazgo se evalúa desde Analista Sr / GL / Ingeniero Sr en adelante.
+# TDB = solo aplica en TDB (Toyota do Brasil) para los puestos marcados con *.
+
+niveles:
+  adm_aux:
+    nombre: "Adm. / Aux."
+    desafio:
+      - Se cuestiona a sí mismo para proponer ideas con una mentalidad abierta
+      - Realiza su trabajo con curiosidad
+    adaptagilidad:
+      - Acepta nuevos enfoques, siempre ajustándose a los cambios en una forma ágil y flexible
+    entrega:
+      - Ofrece ayuda a otros y comparte información precisa a los interesados rápidamente
+      - Toma en consideración la experiencia del cliente para entregar los mejores resultados
+    cliente:
+      - Demuestra interés y apertura para recibir el feedback de sus clientes en su trabajo diario
+      - Ejecuta el trabajo con foco en la calidad y en la satisfacción del cliente
+    ensenanza_crecimiento:
+      - Muestra curiosidad por aprender cosas nuevas, buscando siempre una mejor manera de hacer su trabajo
+      - Pide y aplica feedback sobre su desempeño
+      - Adopta una perspectiva de aprendizaje de Enseñar y Ser Enseñado (teach and be taught), reflejando las prácticas y valores de Toyota en su trabajo diario
+
+  analista_jr:
+    nombre: "Analista Jr / Ingeniero Jr"
+    desafio:
+      - Cuestiona el cómo se realizan las cosas y señala constructivamente sus ideas al equipo
+      - Se desafía para identificar oportunidades KAIZEN en sus actividades
+    adaptagilidad:
+      - Demuestra entusiasmo con lo nuevo y con el cambio
+      - Entiende la necesidad de cambios laborales, siendo flexible para implementarlos
+    entrega:
+      - Hace análisis de los hechos y datos en la resolución de problemas, enfocándose en la experiencia del cliente
+      - Anticipa e informa los problemas y temas para su equipo
+      - Aplica el PDCA (Plan, Do, Check, Act) para rápidamente resolver los problemas como equipo
+    cliente:
+      - Utiliza el conocimiento interno y externo sobre los clientes mientras realiza sus actividades
+      - Genera contramedidas basadas en el feedback de sus clientes para mejorar la calidad de su trabajo
+    ensenanza_crecimiento:
+      - Muestra curiosidad por aprender cosas nuevas, buscando siempre una mejor manera de hacer su trabajo
+      - Pide y aplica feedback sobre su desempeño
+      - Adopta una perspectiva de aprendizaje de Enseñar y Ser Enseñado (teach and be taught), reflejando las prácticas y valores de Toyota en su trabajo diario
+
+  analista_pl:
+    nombre: "Analista Pl / TL* / Ingeniero Pl"
+    desafio:
+      - Utiliza sus conocimientos realizando sus tareas con un enfoque creativo
+      - Realiza Kaizen en sus procesos con autonomía
+    adaptagilidad:
+      - Actúa rápidamente y de forma flexible para corregir sus acciones
+      - Toma iniciativa para cambiar y persistir enfrentando los obstáculos
+    entrega:
+      - Construye nuevas soluciones para anticipar los problemas y hacer las correcciones, enfocándose en la experiencia del cliente y trabajando con el equipo
+      - Se posiciona basado en hechos y aporta soluciones con creatividad
+      - Aplica PDCA al proceso con autonomía y pertenencia siempre buscando agilidad
+    cliente:
+      - Aplica el enfoque de "Customer First" para comprender mejor a su cliente y brindar una entrega de calidad
+      - Monitorea y captura constantemente los comentarios de sus clientes para hacer ajustes rápidos para satisfacer sus necesidades
+    ensenanza_crecimiento:
+      - Se mantiene actualizado y adquiere nuevos conocimientos en su área de especialización
+      - Trabaja de manera constante para mejorar sus capacidades y desempeño
+      - Adopta activamente las prácticas y valores de Toyota, así como integra la perspectiva de enseñar y ser enseñado (teach and be taught) en su trabajo diario
+
+  analista_sr:
+    nombre: "Analista Sr / GL* / Ingeniero Sr"
+    desafio:
+      - Plantea soluciones más allá de los estándares, considerando cómo agregar valor a su proceso y tarea
+      - Aplica y entrena a otros miembros en el proceso de KAIZEN generando soluciones sustentables
+    adaptagilidad:
+      - Adapta rápidamente su comportamiento e incentiva a sus colaboradores a conectarse con el nuevo contexto
+      - Persevera para rápidamente cambiar o ajustar proyectos y procesos, superando los obstáculos emergentes
+    entrega:
+      - Anticipa los requerimientos y necesidades del cliente
+      - Crea procesos para garantizar soluciones exitosas y eficientes
+      - Desarrolla acciones estructuradas y es responsable por ellas
+      - Estimula a otros continuamente utilizando la metodología del TBP para garantizar el éxito de los objetivos
+    cliente:
+      - Anticipa las demandas de sus clientes e identifica las mejores formas para satisfacerlas
+      - Estimula a otros para construir el concepto de "Customer First" compartiendo mejoras
+    ensenanza_crecimiento:
+      - Busca y aplica nuevos conocimientos en el trabajo con autonomía
+      - Comparte conocimientos y experiencia para mejorar el desempeño del equipo
+      - Busca oportunidades de desarrollo y asume tareas desafiantes
+      - Fomenta un entorno de enseñar y ser enseñado (teach and be taught) con los colegas de Toyota, promoviendo el aprendizaje mutuo a través de las prácticas y valores de Toyota
+    liderazgo:
+      - Comparte los conocimientos abiertamente, preocupándose genuinamente por el desarrollo de los demás
+      - Valora las diferencias individuales de cada miembro del equipo, mostrándose abierto a trabajar con otros aún con diferentes aptitudes
+      - Construye y mantiene redes laborales efectivas y constructivas con miembros de otras áreas o divisiones
+
+  coordinador:
+    nombre: "Coordinador"
+    desafio:
+      - Genera soluciones que cuestionan la situación actual, viendo dentro y fuera de la empresa
+      - Estimula el sentido de la curiosidad dentro de su equipo
+      - Aplica el KAIZEN dentro de su equipo con una visión innovadora, siendo un modelo a imitar por su equipo
+    adaptagilidad:
+      - Implementa los cambios con la mente abierta dándole el sentido de urgencia que requiere
+      - Estimula a su equipo a buscar nuevos enfoques evaluando el riesgo y beneficios de las diferentes alternativas de solución
+    entrega:
+      - Actúa con autonomía al priorizar objetivos y refuerza el modelo PDCA para conseguir resultados exitosos
+      - Guía a los miembros para trabajar en equipo identificando, analizando y resolviendo problemas rápidamente utilizando las metodologías de Toyota para entregarle al cliente la mejor respuesta
+      - Identifica la insuficiencia/ineficiencia de recursos y los niveles de carga laboral
+    cliente:
+      - Garantiza que su equipo considere todos los comentarios de sus clientes en la mejora de procesos y las nuevas soluciones
+      - Apoya al equipo para comprender su rol en el proceso teniendo en cuenta el concepto de "Customer First"
+    ensenanza_crecimiento:
+      - Crea oportunidades de aprendizaje para sí mismo y para otros, apoyando el desarrollo de nuevas competencias
+      - Adopta la práctica del "aprendizaje en equipo" al implementar acciones que fomenten un comportamiento de trabajo en equipo
+      - Enseña y hace referencia a las prácticas y valores de Toyota en los comportamientos individuales y en las reuniones del equipo
+    liderazgo:
+      - Crea un ambiente de trabajo basado en la confianza mutua, y es reconocido como un líder humano y agradecido
+      - Estimula la diversidad en donde los colaboradores se sienten cómodos para generar ideas, mejorando el trabajo en equipo y sus resultados
+
+  gerente:
+    nombre: "Gerente"
+    desafio:
+      - Propone e implementa soluciones innovadoras fuera de los estándares
+      - Genera una cultura de pensamiento innovador en su equipo reconociendo a quienes tienen esta mentalidad
+      - Motiva al equipo a superar la resistencia al cambio
+    adaptagilidad:
+      - Promociona los cambios con entusiasmo, negociando de forma constructiva con los problemas en situaciones inciertas
+      - Usa un enfoque ágil para tomar decisiones en su trabajo
+    entrega:
+      - Genera la colaboración entre áreas para mejores resultados
+      - Recomienda el uso diario de metodologías y herramientas Toyota para maximizar la eficiencia del equipo
+      - Prioriza las tareas de equipo para conseguir los objetivos del negocio, dándole la autonomía necesaria para incrementar el sentido de logros
+      - Toma medidas para la mejora y revisa los recursos asignados al proceso laboral
+    cliente:
+      - Busca permanentemente conseguir la mejor experiencia para sus clientes, considerando en su gestión diaria las emociones generadas, las conductas y preferencias de sus clientes, además de nuevas tendencias
+      - Transmite y reconoce la importancia de la filosofía "Customer First"
+      - Motiva al equipo a conectarse con la filosofía "Customer First" en el trabajo diario
+    ensenanza_crecimiento:
+      - Adopta la práctica del "aprendizaje continuo" y del "OJD", considerando los errores honestos como parte del proceso de aprendizaje
+      - Asigna trabajos que aprovechan las fortalezas de los miembros del equipo y evalúa el desempeño de forma objetiva y justa
+      - Comparte constantemente experiencias y aprendizajes a través de los valores y métodos de Toyota, promoviendo prácticas que puedan ser adoptadas por el equipo
+      - Enseña las prácticas de Toyota y promueve que la comunicación diaria y la resolución de problemas en equipo se realicen aplicando los principios de Toyota
+    liderazgo:
+      - Promueve un ambiente confiable en donde cada uno se siente respetado y valioso
+      - Actúa como habla y es un ejemplo de humanidad y agradecimiento
+      - Lidera en forma atractiva e inclusiva cuando distribuye tareas y conecta gente al HOSHIN del área
+
+  gerente_general:
+    nombre: "Gerente General"
+    desafio:
+      - Toma un riesgo calculado para entregar soluciones innovadoras que rompen con los usos y costumbres
+      - Construye redes internas y externas a fin de crear soluciones innovadoras con una perspectiva de mediano y largo plazo
+      - Motiva al equipo para salir de su zona de confort
+    adaptagilidad:
+      - Anticipa escenarios y desafía a su equipo a hacerlo de igual forma, adaptando la estrategia a la constante transformación del mercado
+      - Integra información ambigua y compleja haciendo la toma de decisiones ágil
+    entrega:
+      - Crea claridad sobre el propósito y la estrategia de la empresa para que los equipos generen resultados alineados con el objetivo del negocio
+      - Empodera a los equipos delegando autonomía para la toma de decisiones, potenciando los resultados
+      - Asigna eficazmente los recursos limitados en función de las prioridades de la organización
+    cliente:
+      - Crea un entorno donde el alto nivel de satisfacción de la experiencia del cliente genera una ventaja competitiva para la compañía
+      - Garantiza que las actividades y entregas del equipo se sustenten y sean un símbolo del enfoque "Customer First"
+    ensenanza_crecimiento:
+      - Adopta el "aprendizaje permanente" promoviendo la autonomía en el proceso de toma de decisiones de su equipo
+      - Promueve una cultura de "aprendizaje continuo" generando un entorno positivo para las personas
+      - Fomenta una cultura de "aprendizaje a lo largo de la vida" mediante feedback regular, brindando a los miembros una visión clara de su evolución
+      - Enseña y es modelo del Toyota Way en el día a día, promoviendo los valores y prácticas de Toyota
+    liderazgo:
+      - Promociona un ambiente de trabajo inclusivo en donde todos se sienten comprometidos a dar lo mejor
+      - Conecta la contribución del equipo con la estrategia general
+
+  director:
+    nombre: "Director"
+    desafio:
+      - Busca caminos para impulsar la transformación del negocio, tomando riesgos para hacer que funcione
+      - Apoya ideas y soluciones innovadoras teniendo en cuenta nuevas alianzas en busca de adaptarse al entorno empresarial
+      - Disemina la cultura emprendedora, empoderando gente con esa mentalidad
+    adaptagilidad:
+      - Diseña estrategias con una perspectiva a largo plazo flexible y ágil para adaptarse a los movimientos del mercado y cambios en el negocio
+      - Da claridad, enfoque y agilidad, empoderando a todos en búsqueda del cambio de TOYOTA para adaptarse al nuevo contexto de negocio
+    entrega:
+      - Distribuye el propósito de la compañía con pasión para conectar entrega y estrategia, apuntando a crear la mejora competitiva y la continuidad del negocio
+      - Disemina la cultura de los mejores resultados a través de "la gente adecuada en el lugar preciso", alineada con el plan de sucesión y la estrategia del negocio
+      - Busca obtener la máxima eficiencia de los recursos asignados a su área de responsabilidad
+    cliente:
+      - Crea una cultura con eje en la filosofía "Customer First" para mantener la continuidad del negocio y el valor de la marca
+      - Inspira a las personas a ofrecer una experiencia única para todos sus clientes internos y externos
+    ensenanza_crecimiento:
+      - Aboga por la evolución de las personas a través de la formación de sucesores para la continuidad del negocio
+      - Adopta "el aprendizaje y su poder transformador" al liderar confiando en las capacidades de las personas, promoviendo también espacios para probar nuevos métodos y prácticas innovadoras
+      - Es embajador e inspira a otros como modelo a seguir para promover el enseñar y ser enseñado (teach and be taught), asegurando los valores y prácticas del Toyota Way
+    liderazgo:
+      - Fomenta el respeto por la gente, potenciando la cultura de la humildad reconociendo la contribución de cada individuo
+      - Inspira a las personas, conectándolos tanto emocional como racionalmente a un propósito común y a la visión de la compañía

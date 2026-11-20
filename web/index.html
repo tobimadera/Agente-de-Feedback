@@ -55,7 +55,7 @@
   .nota { color: var(--suave); font-size: .85rem; margin: 8px 0 0; }
   /* Conversación */
   #chat .cabecera { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-  #consigna { font-size: .9rem; color: var(--suave); margin-bottom: 12px; }
+  #consigna { font-size: .95rem; color: var(--suave); margin-bottom: 12px; }
   #mensajes { display: flex; flex-direction: column; gap: 10px; min-height: 40vh; max-height: 58vh; overflow-y: auto; padding: 4px; }
   .burbuja { max-width: 82%; padding: 10px 14px; border-radius: 14px; white-space: pre-wrap; }
   .burbuja.colaborador { background: var(--otro); align-self: flex-start; }
@@ -65,13 +65,27 @@
   #redactar { display: flex; gap: 8px; margin-top: 12px; align-items: flex-end; }
   #redactar textarea { resize: none; height: 72px; }
   .error { color: var(--mal); margin-top: 8px; }
-  #avatar { position: relative; margin: 0 auto 12px; width: 100%; max-width: 420px; aspect-ratio: 1 / 1;
+  /* Sala de la conversación: cara y botones a la izquierda, chat a la derecha, a la misma altura. */
+  .sala { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+  .lado-cara { display: flex; flex-direction: column; gap: 12px; }
+  .lado-chat { display: flex; flex-direction: column; min-height: 520px; }
+  .lado-chat #mensajes { flex: 1 1 auto; min-height: 0; max-height: none; height: 0; }
+  #retrato { width: 100%; aspect-ratio: 765 / 1079; object-fit: cover; object-position: top; border-radius: 12px; display: block; max-height: 400px; }
+  #avatar:not([hidden]) ~ #retrato { display: none; }
+  .botones-grandes { display: grid; gap: 10px; }
+  button.grande { padding: 16px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; width: 100%; }
+  @media (max-width: 760px) {
+    .sala { grid-template-columns: 1fr; }
+    .lado-chat { min-height: 420px; }
+    #retrato { max-height: 240px; }
+    #avatar { max-width: 260px; align-self: center; }
+  }
+  #avatar { position: relative; margin: 0; width: 100%; aspect-ratio: 1 / 1;
             border-radius: 12px; overflow: hidden; background: var(--otro); }
   #avatar video { width: 100%; height: 100%; object-fit: cover; display: block; }
   #estadoAvatar { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center;
                   padding: 12px; background: var(--otro); color: var(--suave); font-size: .9rem; text-align: center; }
   #avatar.conectado #estadoAvatar { display: none; }
-  #avatar:not([hidden]) ~ #mensajes { min-height: 20vh; max-height: 30vh; }
   #fichaChat { margin-bottom: 12px; }
   #fichaChat img { width: 48%; max-width: 260px; border-radius: 10px; margin-right: 2%; }
   .estado { color: var(--suave); margin-top: 8px; font-size: .9rem; }
@@ -168,25 +182,32 @@
         <button id="verFicha" data-t="verFicha"></button>
         <button id="pista" data-t="pista"></button>
         <button id="vozActiva" hidden></button>
-        <button id="terminar" data-t="terminar"></button>
       </div>
     </div>
-    <div class="panel">
-      <div id="consigna"></div>
-      <div id="fichaChat" hidden></div>
-      <div id="avatar" hidden>
-        <video id="avatarVideo" autoplay playsinline muted></video>
-        <audio id="avatarAudio" autoplay></audio>
-        <div id="estadoAvatar"></div>
+    <div id="consigna"></div>
+    <div id="fichaChat" class="panel" hidden></div>
+    <div class="sala">
+      <div class="lado-cara">
+        <div id="avatar" hidden>
+          <video id="avatarVideo" autoplay playsinline muted></video>
+          <audio id="avatarAudio" autoplay></audio>
+          <div id="estadoAvatar"></div>
+        </div>
+        <img id="retrato" alt="">
+        <div class="botones-grandes">
+          <button class="grande principal" id="microfono" hidden></button>
+          <button class="grande" id="terminar" data-t="terminar"></button>
+        </div>
+        <div class="estado" id="estadoVoz"></div>
       </div>
-      <div id="mensajes"></div>
-      <div id="redactar">
-        <textarea id="texto"></textarea>
-        <button id="microfono" hidden></button>
-        <button class="principal" id="enviar" data-t="enviar"></button>
+      <div class="panel lado-chat">
+        <div id="mensajes"></div>
+        <div id="redactar">
+          <textarea id="texto"></textarea>
+          <button class="principal" id="enviar" data-t="enviar"></button>
+        </div>
+        <div class="error" id="errorChat"></div>
       </div>
-      <div class="estado" id="estadoVoz"></div>
-      <div class="error" id="errorChat"></div>
     </div>
   </section>
 
@@ -626,6 +647,7 @@ async function empezar() {
   const ficha = $("fichaChat");
   ficha.replaceChildren(...["frente", "dorso"].map((lado) => { const i = crear("img"); i.src = c.imagenes[lado]; i.alt = c.nombre; return i; }));
   ficha.hidden = true;
+  $("retrato").src = c.imagenes.frente; $("retrato").alt = c.nombre;
   $("verFicha").textContent = t("verFicha");
   $("mensajes").replaceChildren();
   cerrarAvatar();

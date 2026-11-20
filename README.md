@@ -37,10 +37,10 @@ guarda son situaciones creadas para la práctica, coherentes con cada carta.
 3. Iniciar el servidor desde esta carpeta:
 
    ```
-   .venv\Scripts\python.exe -m uvicorn app.servidor:app --port 8010
+   .venv\Scripts\python.exe -m uvicorn app.servidor:app --port 8011
    ```
 
-4. Abrir http://localhost:8010. El panel del gestor está en http://localhost:8010/gestor.
+4. Abrir http://localhost:8011. El panel del gestor está en http://localhost:8011/gestor.
 
 ## La práctica
 

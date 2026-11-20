@@ -2,10 +2,10 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "entrenador",
+      "name": "entrenador-feedback",
       "runtimeExecutable": ".venv\\Scripts\\python.exe",
-      "runtimeArgs": ["-m", "uvicorn", "app.servidor:app", "--port", "8010"],
-      "port": 8010
+      "runtimeArgs": ["-m", "uvicorn", "app.servidor:app", "--port", "8011"],
+      "port": 8011
     }
   ]
 }

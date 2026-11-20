@@ -66,13 +66,15 @@
   #redactar textarea { resize: none; height: 72px; }
   .error { color: var(--mal); margin-top: 8px; }
   /* Sala de la conversación: cara y botones a la izquierda, chat a la derecha, a la misma altura. */
-  .sala { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: 16px; align-items: stretch; }
+  .sala { display: grid; grid-template-columns: minmax(0, 3fr) minmax(300px, 2fr); gap: 16px; align-items: stretch; }
+  main:has(#chat:not([hidden])) { max-width: 1180px; }
   .lado-cara { display: flex; flex-direction: column; gap: 12px; }
-  .lado-chat { display: flex; flex-direction: column; min-height: 520px; }
+  .lado-chat { display: flex; flex-direction: column; min-height: 480px; }
   .lado-chat #mensajes { flex: 1 1 auto; min-height: 0; max-height: none; height: 0; }
-  #retrato { width: 100%; aspect-ratio: 765 / 1079; object-fit: cover; object-position: top; border-radius: 12px; display: block; max-height: 400px; }
+  #retrato { width: 100%; aspect-ratio: 765 / 1079; object-fit: cover; object-position: top; border-radius: 12px; display: block; max-height: 640px; }
   #avatar:not([hidden]) ~ #retrato { display: none; }
-  .botones-grandes { display: grid; gap: 10px; }
+  .botones-grandes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .botones-grandes button:only-child, .botones-grandes button[hidden] + button { grid-column: 1 / -1; }
   button.grande { padding: 16px; font-size: 1.1rem; font-weight: 600; border-radius: 12px; width: 100%; }
   @media (max-width: 760px) {
     .sala { grid-template-columns: 1fr; }

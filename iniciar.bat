@@ -21,6 +21,10 @@ if not exist ".venv\Scripts\python.exe" (
   ".venv\Scripts\python.exe" -m pip install -r requirements.txt
 )
 
-start "" http://localhost:8011
+echo.
+echo Iniciando el Entrenador de Feedback. El navegador se abre en unos segundos.
+echo No cierres esta ventana mientras uses el entrenador.
+echo.
+start "" /min cmd /c "timeout /t 6 /nobreak >nul & start http://localhost:8011"
 ".venv\Scripts\python.exe" -m uvicorn app.servidor:app --port 8011
 pause

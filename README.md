@@ -31,6 +31,12 @@ guarda son situaciones creadas para la práctica, coherentes con cada carta.
 
 ## Cómo usarlo
 
+**Forma rápida (Windows):** descargar el proyecto (botón verde **Code → Download ZIP** en GitHub) y
+descomprimirlo en una carpeta, copiar ahí el `.env` del Entrenador de Ventas y hacer doble clic en
+`iniciar.bat`. La primera vez instala lo necesario; después abre http://localhost:8011.
+
+**Paso a paso:**
+
 1. Copiar `.env.ejemplo` como `.env` y completar `ANTHROPIC_API_KEY` (y, para voz y cara,
    `ELEVENLABS_API_KEY` y `SIMLI_API_KEY`). Son las mismas claves del Entrenador de Ventas.
 2. Primera vez: `py -m venv .venv` y `.venv\Scripts\python.exe -m pip install -r requirements.txt`.

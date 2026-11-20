@@ -27,6 +27,8 @@ colaboradores:
     nombre: Felipe
     puesto: Analista Sr. de Ing. de Procesos
     pais: Brasil
+    genero: m
+    voz: b1vFwqGOgQwuyhGeKQ9e   # ElevenLabs · Wellerson: brasileño joven
     nivel_competencias: analista_sr
     carta:
       impacto: Área
@@ -87,6 +89,8 @@ colaboradores:
     nombre: Marina
     puesto: Analista Sr. de Planificación
     pais: Argentina
+    genero: f
+    voz: 0LdgqX7HWxqwl7GGMBS4   # ElevenLabs · Carolina: rioplatense, cálida
     nivel_competencias: analista_sr
     carta:
       impacto: Compañía
@@ -144,6 +148,8 @@ colaboradores:
     nombre: Rafael
     puesto: Analista Sr. de Compras
     pais: Brasil
+    genero: m
+    voz: s7EZmcmeY0PaadjMDC6H   # ElevenLabs · Clayton: brasileño, 30 y pico, enérgico
     nivel_competencias: analista_sr
     carta:
       etiqueta: "Promovido hace 4 meses"
@@ -203,6 +209,8 @@ colaboradores:
     nombre: Bruno
     puesto: Analista Sr. de Logística
     pais: Brasil
+    genero: m
+    voz: oEdk3xdQnlm7KXP7DL8r   # ElevenLabs · Mayron: brasileño, calmo y diplomático
     nivel_competencias: analista_sr
     carta:
       impacto: Área
@@ -265,6 +273,8 @@ colaboradores:
     nombre: Martín
     puesto: Analista Sr. de Logística
     pais: Argentina
+    genero: m
+    voz: gpNJzVUAYfxYn4LZQs0k   # ElevenLabs · Tomás: argentino joven y entusiasta
     nivel_competencias: analista_sr
     carta:
       etiqueta: "Promovido hace 8 meses"
@@ -325,6 +335,8 @@ colaboradores:
     nombre: Paula
     puesto: Analista Sr. de Calidad de Proveedores
     pais: Argentina
+    genero: f
+    voz: TZvhlMgMw2P4gPSuD8v7   # ElevenLabs · Agustina: porteña, firme y segura
     nivel_competencias: analista_sr
     carta:
       etiqueta: "Licencia por maternidad"
@@ -384,6 +396,8 @@ colaboradores:
     nombre: Ana
     puesto: Analista Sr. de Mantenimiento
     pais: Brasil
+    genero: f
+    voz: E8coQI8QJIMu5Hxt4hIx   # ElevenLabs · Larissa: brasileña, voz firme
     nivel_competencias: analista_sr
     carta:
       impacto: Área
@@ -443,6 +457,8 @@ colaboradores:
     nombre: Sergio
     puesto: Analista Sr. de Producción
     pais: Brasil
+    genero: m
+    voz: R3mQ9kzdIW8y3atS1Ec2   # ElevenLabs · Kenn: brasileño, cálido y cercano
     nivel_competencias: analista_sr
     carta:
       impacto: Área
@@ -503,6 +519,8 @@ colaboradores:
     nombre: Laura
     puesto: Analista Sr. de Control de Calidad
     pais: Argentina
+    genero: f
+    voz: PoLFkTquRWtbexdwW3Xa   # ElevenLabs · Paola: rioplatense, serena
     nivel_competencias: analista_sr
     carta:
       impacto: Área
@@ -559,6 +577,8 @@ colaboradores:
     nombre: Marcos
     puesto: Analista Sr. de Logística de Salida
     pais: Argentina
+    genero: m
+    voz: 5v6YSGBv8Rbr7ufiFR1t   # ElevenLabs · Nicolás: argentino, tranquilo y amable
     nivel_competencias: analista_sr
     carta:
       impacto: Área

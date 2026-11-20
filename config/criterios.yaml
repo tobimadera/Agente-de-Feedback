@@ -1,0 +1,38 @@
+# Criterios con los que se evalúa al líder al terminar la conversación de feedback.
+# Misma escala que la evaluación de desempeño de la organización:
+# 1 Insatisfactorio · 2 Necesita mejorar · 3 Cumple · 4 Supera · 5 Excepcional
+# Detalle de cada nivel y de las trampas: skills/agente-feedback/references/rubrica_feedback.md
+
+escala: 5
+# Puntaje que se espera en cada criterio. El panel del gestor marca como brecha lo que queda por debajo.
+objetivo: 4
+
+criterios:
+  - nombre: Preparación y hechos
+    descripcion: >-
+      3: cita al menos una meta con su meta y su real. 5: usa metas, competencias y contexto de la
+      carta con números y situaciones concretas de la bitácora. 1: solo opiniones o impresiones.
+  - nombre: Claridad de la calificación
+    descripcion: >-
+      3: dice la calificación final en algún momento. 5: la dice temprano, sin rodeos, la explica con
+      la escala y la asume como propia. 1: no la dice, la dice ambigua o culpa al comité o al cupo.
+  - nombre: Competencias con el estándar del nivel
+    descripcion: >-
+      3: nombra la competencia a desarrollar. 5: la conecta con un comportamiento esperado del nivel
+      (manual TLAC) y un ejemplo situación–comportamiento–impacto. 1: usa etiquetas de personalidad.
+  - nombre: Escucha y preguntas
+    descripcion: >-
+      3: hace alguna pregunta abierta. 5: pregunta antes de concluir, parafrasea, deja hablar y usa
+      lo que el colaborador dice. 1: monólogo; interrumpe o ignora lo que el colaborador plantea.
+  - nombre: Manejo de la reacción
+    descripcion: >-
+      3: no se pone a la defensiva. 5: reconoce la emoción y sostiene el mensaje con calma, sin ceder
+      ni endurecer. 1: cede o promete revisar la calificación, discute o amenaza.
+  - nombre: Libre de sesgos
+    descripcion: >-
+      3: no cae en la trampa de la carta. 5: además neutraliza el sesgo de forma explícita.
+      1–2: cae en la trampa, o usa edad, género, maternidad, salud o vida personal como argumento.
+  - nombre: Desarrollo y acuerdos
+    descripcion: >-
+      3: acuerda al menos una acción. 5: plan con 1–2 focos, acciones concretas, fecha y seguimiento,
+      construido con el colaborador. 1: termina sin ninguna acción ni próximo paso.

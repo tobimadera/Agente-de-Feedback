@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Entrenador de Feedback</title>
+<style>
+  :root {
+    --fondo: #f4f5f7; --panel: #ffffff; --texto: #1c2430; --suave: #5d6878; --borde: #d9dee6;
+    --acento: #c0262d; --acento-texto: #ffffff; --yo: #fbe3e4; --otro: #eef0f3; --mal: #b3261e; --bien: #1b7a43;
+    --coach: #fff6db;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #12161c; --panel: #1b212a; --texto: #e7ebf1; --suave: #9aa5b5; --borde: #2f3845;
+      --acento: #ff7a7f; --acento-texto: #1a0d0e; --yo: #4a2326; --otro: #262e3a; --mal: #ff8a80; --bien: #6fd79a;
+      --coach: #3a3220;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 16px/1.5 system-ui, "Segoe UI", sans-serif; }
+  main { max-width: 980px; margin: 0 auto; padding: 24px 16px; }
+  h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  h2 { font-size: 1.1rem; margin: 24px 0 8px; }
+  h3 { font-size: 1rem; margin: 16px 0 6px; }
+  p.sub { color: var(--suave); margin: 0 0 20px; }
+  .panel { background: var(--panel); border: 1px solid var(--borde); border-radius: 12px; padding: 16px; }
+  .opciones { display: flex; gap: 8px; flex-wrap: wrap; }
+  button { font: inherit; cursor: pointer; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); padding: 10px 16px; }
+  button.activo, button.principal { background: var(--acento); color: var(--acento-texto); border-color: var(--acento); }
+  button.bandera { padding: 6px; line-height: 0; border-width: 2px; background: var(--panel); }
+  button.bandera svg { width: 54px; height: 36px; border-radius: 4px; display: block; pointer-events: none; box-shadow: 0 0 0 1px rgba(0, 0, 0, .12); }
+  button.bandera.activo { background: var(--panel); border-color: var(--acento); box-shadow: 0 0 0 2px var(--acento); }
+  button.bandera:not(.activo) svg { opacity: .55; }
+  button:disabled { opacity: .5; cursor: default; }
+  input, textarea { font: inherit; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); }
+  .etiqueta { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+  /* Grilla de cartas */
+  #cartas { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+  .carta { padding: 0; border: 2px solid transparent; border-radius: 12px; overflow: hidden; background: none; text-align: left; }
+  .carta img { width: 100%; aspect-ratio: 765 / 1079; display: block; }
+  .carta.activo { border-color: var(--acento); box-shadow: 0 0 0 2px var(--acento); background: none; color: inherit; }
+  .carta .pie { display: block; padding: 6px 8px; background: var(--panel); font-size: .85rem; }
+  .carta .pie small { display: block; color: var(--suave); }
+  /* Ficha del colaborador elegido */
+  #ficha { margin-top: 16px; }
+  .ficha-cuerpo { display: grid; grid-template-columns: minmax(0, 320px) minmax(0, 1fr); gap: 16px; align-items: start; }
+  @media (max-width: 720px) { .ficha-cuerpo { grid-template-columns: 1fr; } }
+  .volteo { width: 100%; padding: 0; border: 0; background: none; border-radius: 12px; overflow: hidden; }
+  .volteo img { width: 100%; display: block; }
+  .objetivo { padding: 12px 16px; border-left: 4px solid var(--acento); border-radius: 8px; background: var(--otro); }
+  .objetivo p { margin: 4px 0 0; }
+  .calif { font-size: 1.4rem; font-weight: 700; }
+  ul { margin: 4px 0; padding-left: 20px; }
+  .nota { color: var(--suave); font-size: .85rem; margin: 8px 0 0; }
+  /* Conversación */
+  #chat .cabecera { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  #consigna { font-size: .9rem; color: var(--suave); margin-bottom: 12px; }
+  #mensajes { display: flex; flex-direction: column; gap: 10px; min-height: 40vh; max-height: 58vh; overflow-y: auto; padding: 4px; }
+  .burbuja { max-width: 82%; padding: 10px 14px; border-radius: 14px; white-space: pre-wrap; }
+  .burbuja.colaborador { background: var(--otro); align-self: flex-start; }
+  .burbuja.yo { background: var(--yo); align-self: flex-end; }
+  .burbuja.coach { background: var(--coach); align-self: center; max-width: 92%; font-size: .92rem; }
+  .burbuja .quien { display: block; font-size: .75rem; color: var(--suave); margin-bottom: 2px; }
+  #redactar { display: flex; gap: 8px; margin-top: 12px; align-items: flex-end; }
+  #redactar textarea { resize: none; height: 72px; }
+  .error { color: var(--mal); margin-top: 8px; }
+  #avatar { position: relative; margin: 0 auto 12px; width: 100%; max-width: 420px; aspect-ratio: 1 / 1;
+            border-radius: 12px; overflow: hidden; background: var(--otro); }
+  #avatar video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  #estadoAvatar { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center;
+                  padding: 12px; background: var(--otro); color: var(--suave); font-size: .9rem; text-align: center; }
+  #avatar.conectado #estadoAvatar { display: none; }
+  #avatar:not([hidden]) ~ #mensajes { min-height: 20vh; max-height: 30vh; }
+  #fichaChat { margin-bottom: 12px; }
+  #fichaChat img { width: 48%; max-width: 260px; border-radius: 10px; margin-right: 2%; }
+  .estado { color: var(--suave); margin-top: 8px; font-size: .9rem; }
+  .acciones { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  button.grabando { background: var(--mal); border-color: var(--mal); color: var(--panel); }
+  /* Devolución */
+  .sello { display: inline-block; padding: 6px 12px; border-radius: 999px; font-weight: 600; }
+  .sello.listo { background: #d9f2e3; color: #13573a; }
+  .sello.casi { background: #fff0c7; color: #6b4a00; }
+  .sello.practicar { background: #fbe0de; color: #8c1d18; }
+  .puntaje { font-size: 2.4rem; font-weight: 700; }
+  .criterio { border-top: 1px solid var(--borde); padding: 10px 0; }
+  .criterio b { display: flex; justify-content: space-between; gap: 12px; }
+  .criterio q, .momento q { font-style: italic; color: var(--suave); }
+  .momento { border-left: 3px solid var(--acento); padding-left: 12px; margin: 12px 0; }
+  .trampa { padding: 12px 16px; border-radius: 8px; background: var(--otro); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <!-- Pantalla 0: código de acceso (solo si el servidor lo exige) -->
+  <section id="acceso" hidden>
+    <h1>Entrenador de Feedback</h1>
+    <p class="sub">Tu código de acceso personal · Seu código de acesso pessoal</p>
+    <form class="panel" id="formAcceso">
+      <input id="codigo" type="password" autocomplete="off">
+      <p style="margin:16px 0 0"><button class="principal">Entrar</button></p>
+      <div class="error" id="errorAcceso"></div>
+    </form>
+  </section>
+
+  <!-- Pantalla 1: elegir colaborador -->
+  <section id="inicio">
+    <h1 data-t="titulo"></h1>
+    <p class="sub" data-t="subtitulo"></p>
+    <div class="panel">
+      <h2 style="margin-top:0" data-t="idioma"></h2>
+      <div class="opciones" id="idiomas">
+        <button class="bandera" data-idioma="es" aria-label="Español" title="Español">
+          <svg viewBox="0 0 60 40" aria-hidden="true">
+            <rect width="60" height="40" fill="#74ACDF"/>
+            <rect y="13.33" width="60" height="13.34" fill="#FFFFFF"/>
+            <circle cx="30" cy="20" r="4.6" fill="#F6B40E" stroke="#85340A" stroke-width="0.6"/>
+          </svg>
+        </button>
+        <button class="bandera" data-idioma="pt" aria-label="Português" title="Português">
+          <svg viewBox="0 0 60 40" aria-hidden="true">
+            <rect width="60" height="40" fill="#009C3B"/>
+            <polygon points="30,4 56,20 30,36 4,20" fill="#FFDF00"/>
+            <circle cx="30" cy="20" r="8.5" fill="#002776"/>
+            <path d="M21.8 18.2 Q30 15.6 38.4 21.6" fill="none" stroke="#FFFFFF" stroke-width="1.6"/>
+          </svg>
+        </button>
+      </div>
+      <h2 data-t="elegi"></h2>
+      <div id="cartas"></div>
+
+      <div id="ficha" hidden>
+        <h2><span id="fichaNombre"></span></h2>
+        <div class="ficha-cuerpo">
+          <div>
+            <button class="volteo" id="volteo" type="button"><img id="fichaImg" alt=""></button>
+            <p class="nota" data-t="tocaParaVoltear"></p>
+          </div>
+          <div>
+            <div class="objetivo">
+              <div class="etiqueta" data-t="aComunicar"></div>
+              <div class="calif" id="fichaCalif"></div>
+              <p class="nota" data-t="notaCalibrada"></p>
+            </div>
+            <h3 data-t="bitacora"></h3>
+            <ul id="fichaBitacora"></ul>
+            <h3 data-t="competenciasNivel"></h3>
+            <details><summary id="fichaNivel"></summary><div id="fichaCompetencias"></div></details>
+          </div>
+        </div>
+        <div id="bloqueNombre">
+          <h2 data-t="tuNombre"></h2>
+          <input id="nombre" autocomplete="off">
+        </div>
+        <p class="sub" id="quienPractica" hidden style="margin:16px 0 0"></p>
+        <p style="margin:16px 0 0"><button class="principal" id="empezar" data-t="empezar"></button></p>
+      </div>
+      <div class="error" id="errorInicio"></div>
+    </div>
+  </section>
+
+  <!-- Pantalla 2: conversación -->
+  <section id="chat" hidden>
+    <div class="cabecera">
+      <div><span class="etiqueta" data-t="conversacionCon"></span><h1 id="colaborador"></h1></div>
+      <div class="acciones">
+        <button id="verFicha" data-t="verFicha"></button>
+        <button id="pista" data-t="pista"></button>
+        <button id="vozActiva" hidden></button>
+        <button id="terminar" data-t="terminar"></button>
+      </div>
+    </div>
+    <div class="panel">
+      <div id="consigna"></div>
+      <div id="fichaChat" hidden></div>
+      <div id="avatar" hidden>
+        <video id="avatarVideo" autoplay playsinline muted></video>
+        <audio id="avatarAudio" autoplay></audio>
+        <div id="estadoAvatar"></div>
+      </div>
+      <div id="mensajes"></div>
+      <div id="redactar">
+        <textarea id="texto"></textarea>
+        <button id="microfono" hidden></button>
+        <button class="principal" id="enviar" data-t="enviar"></button>
+      </div>
+      <div class="estado" id="estadoVoz"></div>
+      <div class="error" id="errorChat"></div>
+    </div>
+  </section>
+
+  <!-- Pantalla 3: devolución -->
+  <section id="devolucion" hidden>
+    <h1 data-t="devolucion"></h1>
+    <div class="panel" id="contenidoDevolucion"></div>
+    <p><button class="principal" id="otra" data-t="otra"></button></p>
+  </section>
+</main>
+
+<script>
+const TEXTOS = {
+  es: {
+    titulo: "Entrenador de Feedback", subtitulo: "Practicá la conversación de cierre de ciclo con un colaborador y recibí una devolución.",
+    idioma: "Idioma de la conversación", elegi: "Elegí con quién practicar",
+    tocaParaVoltear: "Tocá la carta para darla vuelta.", aComunicar: "Calificación final calibrada que tenés que comunicar",
+    notaCalibrada: "Es la decisión del comité de calibración. Asumila como tuya.",
+    bitacora: "Tu bitácora: lo que observaste en el año", competenciasNivel: "Qué se espera en su nivel",
+    tuNombre: "Tu nombre (opcional)", empezar: "Empezar la conversación",
+    conversacionCon: "Conversación con", verFicha: "Ver ficha", ocultarFicha: "Ocultar ficha", pista: "Pista",
+    terminar: "Terminar y evaluar", enviar: "Enviar", vos: "Vos", coach: "Coach",
+    tenesQue: "Tenés que comunicar: ", escribi: "Escribí lo que le dirías…", evaluando: "Evaluando la conversación…",
+    pensando: "El coach está pensando…",
+    devolucion: "Devolución", otra: "Practicar otra vez", resultado: "Cómo terminó", criterios: "Por criterio",
+    fortalezas: "Lo que hiciste bien", mejoras: "Lo que más te conviene cambiar", momentos: "Momentos clave",
+    dijiste: "Dijiste", alternativa: "Probá", corta: "Conversá un poco más antes de pedir la evaluación.",
+    trampa: "La trampa de esta carta", caiste: "Caíste en la trampa", noCaiste: "No caíste en la trampa",
+    noConto: "Lo que no te contó", preguntaClave: "La pregunta que lo habría abierto",
+    proximo: "Próximo paso: practicá con", comunicada: "Calificación que comunicaste", final: "La que correspondía",
+    pistasUsadas: "Pistas usadas", dificultad: "Dificultad",
+    baja: "baja", media: "media", alta: "alta", "muy alta": "muy alta",
+    conectando: "Conectando con", sinAvatar: "No se pudo mostrar la cara; el colaborador sigue hablando solo con voz.",
+    avatarOcupado: "Ahora no hay lugar para otra cara (se alcanzó el máximo de prácticas con avatar al mismo tiempo). El colaborador sigue hablando solo con voz.",
+    practicasComo: "Practicás como", hablar: "Hablar", enviarAudio: "Enviar audio", vozSi: "Voz: sí", vozNo: "Voz: no",
+    grabando: "Grabando… tocá «Enviar audio» cuando termines.", transcribiendo: "Pasando tu audio a texto…",
+    sinMic: "No se pudo usar el micrófono. Revisá el permiso del navegador.", nadaOido: "No se entendió el audio. Probá de nuevo.",
+  },
+  pt: {
+    titulo: "Treinador de Feedback", subtitulo: "Pratique a conversa de fechamento de ciclo com um colaborador e receba um feedback.",
+    idioma: "Idioma da conversa", elegi: "Escolha com quem praticar",
+    tocaParaVoltear: "Toque na carta para virá-la.", aComunicar: "Avaliação final calibrada que você deve comunicar",
+    notaCalibrada: "É a decisão do comitê de calibração. Assuma-a como sua.",
+    bitacora: "Seu diário: o que você observou no ano", competenciasNivel: "O que se espera no nível dele(a)",
+    tuNombre: "Seu nome (opcional)", empezar: "Começar a conversa",
+    conversacionCon: "Conversa com", verFicha: "Ver ficha", ocultarFicha: "Ocultar ficha", pista: "Dica",
+    terminar: "Encerrar e avaliar", enviar: "Enviar", vos: "Você", coach: "Coach",
+    tenesQue: "Você deve comunicar: ", escribi: "Escreva o que você diria…", evaluando: "Avaliando a conversa…",
+    pensando: "O coach está pensando…",
+    devolucion: "Feedback", otra: "Praticar de novo", resultado: "Como terminou", criterios: "Por critério",
+    fortalezas: "O que você fez bem", mejoras: "O que mais convém mudar", momentos: "Momentos-chave",
+    dijiste: "Você disse", alternativa: "Tente", corta: "Converse um pouco mais antes de pedir a avaliação.",
+    trampa: "A armadilha desta carta", caiste: "Você caiu na armadilha", noCaiste: "Você não caiu na armadilha",
+    noConto: "O que não te contou", preguntaClave: "A pergunta que teria aberto",
+    proximo: "Próximo passo: pratique com", comunicada: "Avaliação que você comunicou", final: "A que correspondia",
+    pistasUsadas: "Dicas usadas", dificultad: "Dificuldade",
+    baja: "baixa", media: "média", alta: "alta", "muy alta": "muito alta",
+    conectando: "Conectando com", sinAvatar: "Não foi possível mostrar o rosto; o colaborador continua falando só com voz.",
+    avatarOcupado: "Agora não há vaga para outro rosto. O colaborador continua falando só com voz.",
+    practicasComo: "Praticando como", hablar: "Falar", enviarAudio: "Enviar áudio", vozSi: "Voz: sim", vozNo: "Voz: não",
+    grabando: "Gravando… toque em «Enviar áudio» quando terminar.", transcribiendo: "Transcrevendo seu áudio…",
+    sinMic: "Não foi possível usar o microfone. Verifique a permissão do navegador.", nadaOido: "O áudio não foi entendido. Tente de novo.",
+  },
+};
+const $ = (id) => document.getElementById(id);
+const estado = { idioma: "es", elegido: null, colaboradores: [], competencias: null, sesion: null, colaborador: "",
+                 ocupado: false, voz: false, vozActiva: true, turno: 0, dorso: false };
+let grabador = null, audioActual = null;
+const idioma = () => estado.idioma;
+const t = (clave) => TEXTOS[idioma()][clave] ?? clave;
+
+function crear(etiqueta, clase, texto) {
+  const e = document.createElement(etiqueta);
+  if (clase) e.className = clase;
+  if (texto !== undefined) e.textContent = texto;
+  return e;
+}
+
+const elegido = () => estado.colaboradores.find((c) => c.id === estado.elegido);
+
+function pintar() {
+  document.documentElement.lang = idioma();
+  document.querySelectorAll("[data-t]").forEach((e) => (e.textContent = t(e.dataset.t)));
+  document.querySelectorAll("[data-idioma]").forEach((b) => b.classList.toggle("activo", b.dataset.idioma === estado.idioma));
+  $("texto").placeholder = t("escribi");
+  pintarCartas();
+  pintarFicha();
+  if (estado.lider) $("quienPractica").textContent = `${t("practicasComo")} ${estado.lider.nombre}`;
+  pintarVoz();
+}
+
+function pintarCartas() {
+  $("cartas").replaceChildren(...estado.colaboradores.map((c) => {
+    const b = crear("button", "carta" + (c.id === estado.elegido ? " activo" : ""));
+    const img = crear("img"); img.src = c.imagenes.frente; img.alt = c.nombre; img.loading = "lazy";
+    const pie = crear("span", "pie");
+    pie.append(crear("strong", "", `${c.nombre} → ${c.calificacion_final}`), crear("small", "", `${t("dificultad")} ${t(c.dificultad)}`));
+    b.append(img, pie);
+    b.onclick = () => { estado.elegido = c.id; estado.dorso = false; pintar(); $("ficha").scrollIntoView({ behavior: "smooth" }); };
+    return b;
+  }));
+}
+
+function pintarFicha() {
+  const c = elegido();
+  $("ficha").hidden = !c;
+  if (!c) return;
+  $("fichaNombre").textContent = `${c.nombre} · ${c.puesto} · ${c.pais}`;
+  $("fichaImg").src = estado.dorso ? c.imagenes.dorso : c.imagenes.frente;
+  $("fichaImg").alt = c.nombre;
+  $("fichaCalif").textContent = c.calificacion_final;
+  $("fichaBitacora").replaceChildren(...c.bitacora.map((b) => crear("li", "", b)));
+  const comp = estado.competencias;
+  if (comp) {
+    const nivel = comp.niveles.analista_sr;
+    $("fichaNivel").textContent = nivel.nombre;
+    $("fichaCompetencias").replaceChildren(...comp.competencias.filter((k) => nivel[k]).map((k) => {
+      const d = crear("div"), valor = c.carta.competencias[k];
+      d.append(crear("h3", "", `${comp.nombres[k]} · ${valor}/5${valor <= 2 ? " ⚠️" : ""}`));
+      const ul = crear("ul"); nivel[k].forEach((x) => ul.append(crear("li", "", x))); d.append(ul);
+      return d;
+    }));
+  }
+}
+
+function pintarVoz() {
+  $("vozActiva").hidden = $("microfono").hidden = !estado.voz;
+  $("vozActiva").textContent = estado.vozActiva ? t("vozSi") : t("vozNo");
+  $("vozActiva").classList.toggle("activo", estado.vozActiva);
+  $("microfono").textContent = grabador ? t("enviarAudio") : t("hablar");
+  $("microfono").classList.toggle("grabando", !!grabador);
+}
+
+function mostrar(pantalla) {
+  for (const id of ["acceso", "inicio", "chat", "devolucion"]) $(id).hidden = id !== pantalla;
+}
+
+// Todas las llamadas al servidor llevan el código de acceso; si lo rechaza, se vuelve a pedir.
+let codigo = "";
+try { codigo = sessionStorage.getItem("codigo") || ""; } catch {}
+async function api(ruta, opciones = {}) {
+  opciones.headers = { ...(opciones.headers || {}), "X-Codigo": codigo };
+  const r = await fetch(ruta, opciones);
+  if (r.status === 401) { mostrar("acceso"); $("codigo").focus(); }
+  return r;
+}
+async function cargarColaboradores() {
+  const r = await api("/api/colaboradores");
+  if (!r.ok) return false;
+  estado.colaboradores = await r.json();
+  try { estado.competencias = await (await api("/api/competencias")).json(); } catch {}
+  try {
+    const config = await (await api("/api/config")).json();
+    estado.voz = config.voz === true;
+    estado.avatar = config.avatar === true;
+    estado.lider = config.lider;
+  } catch { estado.voz = false; estado.lider = null; }
+  if (estado.lider && !estado.idiomaElegido) estado.idioma = estado.lider.pais === "br" ? "pt" : "es";
+  $("bloqueNombre").hidden = !!estado.lider;
+  $("quienPractica").hidden = !estado.lider;
+  pintar();
+  mostrar("inicio");
+  return true;
+}
+
+function burbuja(clase, quien, texto) {
+  const b = crear("div", "burbuja " + clase);
+  const cuerpo = crear("span", "", texto);
+  b.append(crear("span", "quien", quien), cuerpo);
+  $("mensajes").append(b);
+  $("mensajes").scrollTop = $("mensajes").scrollHeight;
+  return cuerpo;
+}
+
+function ocupar(si) {
+  estado.ocupado = si;
+  $("enviar").disabled = $("terminar").disabled = $("microfono").disabled = $("pista").disabled = si;
+}
+
+// ---------------------------------------------------------------- voz
+// El colaborador habla frase por frase mientras Claude escribe: cada frase completa se pide a
+// ElevenLabs enseguida y se reproduce en orden, sin esperar la respuesta entera.
+const cola = [];
+let sonando = false;
+
+function callar() {
+  estado.turno++;  // lo que estaba en camino ya no se reproduce
+  cola.splice(0).forEach(({ audio }) => audio.then((a) => {
+    if (a.tipo === "mp3") URL.revokeObjectURL(a.dato); else a.dato.body?.cancel().catch(() => {});
+  }, () => {}));
+  if (audioActual) audioActual.pause();
+  if (avatar.cliente) avatar.cliente.ClearBuffer();
+}
+
+// mp3: se reproduce en la página. pcm: va al avatar, que lo devuelve con la cara hablando.
+function pedirAudio(frase, formato) {
+  return api(`/api/sesiones/${estado.sesion}/voz`, {
+    method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ texto: frase, formato }),
+  }).then(async (r) => {
+    if (!r.ok) throw new Error(await textoDeError(r));
+    // pcm: se entrega la respuesta sin leer, para pasarle el audio al avatar a medida que llega.
+    return formato === "pcm"
+      ? { tipo: "pcm", dato: r }
+      : { tipo: "mp3", dato: URL.createObjectURL(await r.blob()) };
+  });
+}
+
+// ---------------------------------------------------------------- avatar (Simli)
+// El servidor da un permiso de sesión; la clave de Simli nunca llega a la página.
+// Si el avatar no conecta o se corta, el colaborador sigue hablando solo con voz.
+const avatar = { cliente: null, listo: null, modulo: null };
+
+function asegurarAvatar() {
+  if (!estado.avatar || !estado.vozActiva || !estado.sesion) return Promise.resolve(false);
+  if (!avatar.listo) avatar.listo = conectarAvatar(estado.sesion);
+  return avatar.listo;
+}
+
+async function conectarAvatar(sesion) {
+  $("avatar").hidden = false;
+  $("avatar").classList.remove("conectado");
+  $("estadoAvatar").textContent = `${t("conectando")} ${estado.colaborador}…`;
+  try {
+    avatar.modulo ??= await import("https://esm.sh/simli-client@3.2.0");
+    const r = await api(`/api/sesiones/${sesion}/avatar`, { method: "POST" });
+    if (!r.ok) throw new Error(await textoDeError(r));
+    const { session_token } = await r.json();
+    const { SimliClient, LogLevel } = avatar.modulo;
+    const c = new SimliClient(session_token, $("avatarVideo"), $("avatarAudio"), null, LogLevel.ERROR);
+    c.on("stop", () => { if (avatar.cliente === c) { avatar.cliente = null; avatar.listo = null; $("avatar").classList.remove("conectado"); } });
+    c.on("error", (detalle) => console.warn("Simli:", detalle));
+    // Simli da por lista la cara cuando el navegador dibuja el primer cuadro. Si no aparece en
+    // 20 s (por ejemplo, la pestaña quedó en segundo plano), se cierra para no gastar minutos.
+    let espera;
+    const limite = new Promise((_, rechazar) => { espera = setTimeout(() => rechazar(new Error("la cara tardó demasiado")), 20000); });
+    try { await Promise.race([c.start(), limite]); }
+    catch (e) { c.stop().catch(() => {}); throw e; }
+    finally { clearTimeout(espera); }
+    if (sesion !== estado.sesion) { c.stop().catch(() => {}); return false; }  // ya terminó esa práctica
+    avatar.cliente = c;
+    $("avatar").classList.add("conectado");
+    $("estadoAvatar").textContent = "";
+    return true;
+  } catch (e) {
+    console.warn("Avatar:", e);
+    $("estadoAvatar").textContent = /RATE LIMIT/i.test(String(e)) ? t("avatarOcupado") : t("sinAvatar");
+    return false;
+  }
+}
+
+function cerrarAvatar() {
+  const c = avatar.cliente;
+  avatar.cliente = null;
+  avatar.listo = null;
+  if (c) c.stop().catch(() => {});
+  $("avatar").classList.remove("conectado");
+}
+
+const TROZO = 6000;  // bytes de PCM por envío, como recomienda Simli (~190 ms de audio)
+// Pasa el audio de una frase al avatar mientras ElevenLabs lo genera, sin esperar a que termine.
+// Cada muestra son 2 bytes: un byte suelto al final de un pedazo espera al siguiente.
+async function mandarAlAvatar(respuesta, turno) {
+  const lector = respuesta.body.getReader();
+  let pendiente = new Uint8Array(0);
+  for (;;) {
+    const { done, value } = await lector.read();
+    if (turno !== estado.turno || !avatar.cliente) { lector.cancel().catch(() => {}); return; }
+    if (value) {
+      const junto = new Uint8Array(pendiente.length + value.length);
+      junto.set(pendiente); junto.set(value, pendiente.length);
+      const util = done ? junto.length : junto.length - (junto.length % TROZO);
+      for (let i = 0; i < util; i += TROZO) avatar.cliente.sendAudioData(junto.subarray(i, Math.min(i + TROZO, util)));
+      pendiente = junto.subarray(util);
+    }
+    if (done) {
+      if (pendiente.length > 1) avatar.cliente.sendAudioData(pendiente.subarray(0, pendiente.length - (pendiente.length % 2)));
+      return;
+    }
+  }
+}
+
+function sonar(url) {
+  return new Promise((fin) => {
+    const a = new Audio(url);
+    audioActual = a;
+    const listo = () => { if (audioActual === a) audioActual = null; URL.revokeObjectURL(url); fin(); };
+    a.onended = a.onpause = a.onerror = listo;
+    a.play().catch(listo);
+  });
+}
+
+async function reproducirCola() {
+  sonando = true;
+  while (cola.length) {
+    const { audio, turno } = cola.shift();
+    let a;
+    try { a = await audio; } catch (e) { $("errorChat").textContent = e.message; continue; }
+    const vigente = turno === estado.turno && !grabador && estado.vozActiva;
+    if (a.tipo === "pcm") {
+      // El avatar encola y reproduce en orden; solo hay que mandarle las frases en orden.
+      if (vigente && avatar.cliente) await mandarAlAvatar(a.dato, turno);
+      else a.dato.body?.cancel().catch(() => {});
+      continue;
+    }
+    if (!vigente) { URL.revokeObjectURL(a.dato); continue; }
+    await sonar(a.dato);
+  }
+  sonando = false;
+}
+
+function decirFrase(frase, turno) {
+  // Con avatar, la voz va en PCM a Simli; si el avatar no está (o falla al conectar), en mp3.
+  // La frase no espera a la cara más de 5 s: si todavía no apareció, se dice solo con voz.
+  const cara = Promise.race([asegurarAvatar(), new Promise((listo) => setTimeout(() => listo(false), 5000))]);
+  const audio = cara.then((conAvatar) => pedirAudio(frase, conAvatar && avatar.cliente ? "pcm" : "mp3"));
+  audio.catch(() => {});  // el error se muestra al llegar su turno en la cola
+  cola.push({ audio, turno });
+  if (!sonando) reproducirCola();
+}
+
+// Busca frases terminadas en el texto nuevo y las manda a decir. Junta las muy cortas con la
+// siguiente para que la voz no suene entrecortada. Devuelve hasta dónde ya se mandó.
+const FIN_DE_FRASE = /[.!?…]+["»”)]?\s+/g;
+function decirFrasesNuevas(texto, desde, final, turno) {
+  let resto = texto.slice(desde), m;
+  FIN_DE_FRASE.lastIndex = 0;
+  while ((m = FIN_DE_FRASE.exec(resto))) {
+    const fin = m.index + m[0].length;
+    if (resto.slice(0, fin).trim().length < 20) continue;
+    decirFrase(resto.slice(0, fin).trim(), turno);
+    desde += fin;
+    resto = resto.slice(fin);
+    FIN_DE_FRASE.lastIndex = 0;
+  }
+  if (final && resto.trim()) { decirFrase(resto.trim(), turno); desde = texto.length; }
+  return desde;
+}
+
+const FORMATOS = ["audio/webm;codecs=opus", "audio/webm", "audio/mp4", "audio/ogg;codecs=opus"];
+async function microfono() {
+  if (grabador) { grabador.stop(); return; }
+  if (estado.ocupado) return;
+  callar();
+  $("errorChat").textContent = "";
+  let flujo;
+  try { flujo = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+  catch { $("errorChat").textContent = t("sinMic"); return; }
+  const formato = FORMATOS.find((f) => window.MediaRecorder && MediaRecorder.isTypeSupported(f)) || "";
+  const partes = [];
+  const g = new MediaRecorder(flujo, formato ? { mimeType: formato } : undefined);
+  g.ondataavailable = (e) => { if (e.data.size) partes.push(e.data); };
+  g.onstop = () => {
+    flujo.getTracks().forEach((pista) => pista.stop());
+    grabador = null;
+    pintarVoz();
+    enviarAudio(new Blob(partes, { type: g.mimeType || formato || "audio/webm" }));
+  };
+  grabador = g;
+  g.start();
+  $("terminar").disabled = $("enviar").disabled = true;
+  $("estadoVoz").textContent = t("grabando");
+  pintarVoz();
+}
+
+async function enviarAudio(blob) {
+  ocupar(true);
+  $("estadoVoz").textContent = t("transcribiendo");
+  const extension = blob.type.includes("mp4") ? "m4a" : blob.type.includes("ogg") ? "ogg" : "webm";
+  const datos = new FormData();
+  datos.append("audio", blob, "turno." + extension);
+  let texto = "";
+  try {
+    const r = await api(`/api/sesiones/${estado.sesion}/transcripcion`, { method: "POST", body: datos });
+    if (!r.ok) throw new Error(await textoDeError(r));
+    texto = (await r.json()).texto;
+    if (!texto) throw new Error(t("nadaOido"));
+  } catch (e) {
+    $("errorChat").textContent = e.message;
+  }
+  $("estadoVoz").textContent = "";
+  ocupar(false);
+  if (texto) hablar(texto, true);
+}
+
+async function textoDeError(r) {
+  try { return (await r.json()).detail || r.statusText; } catch { return r.statusText; }
+}
+
+// Envía lo que dijo el líder (vacío = el colaborador abre la reunión) y va mostrando la respuesta.
+async function hablar(texto, porVoz = false) {
+  $("errorChat").textContent = "";
+  ocupar(true);
+  callar();
+  const turno = estado.turno, conVoz = estado.voz && estado.vozActiva;
+  let dicho = 0;
+  if (texto) burbuja("yo", t("vos"), texto);
+  const cuerpo = burbuja("colaborador", estado.colaborador, "…");
+  try {
+    const r = await api(`/api/sesiones/${estado.sesion}/mensaje`, {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ texto, por_voz: porVoz, hablado: conVoz }),
+    });
+    if (!r.ok) throw new Error(await textoDeError(r));
+    const lector = r.body.getReader(), deco = new TextDecoder();
+    let todo = "";
+    for (;;) {
+      const { done, value } = await lector.read();
+      if (done) break;
+      todo += deco.decode(value, { stream: true });
+      const corte = todo.indexOf("\n[[ERROR]] ");
+      cuerpo.textContent = corte < 0 ? todo : todo.slice(0, corte);
+      $("mensajes").scrollTop = $("mensajes").scrollHeight;
+      if (corte >= 0) throw new Error(todo.slice(corte + 11));
+      if (conVoz) dicho = decirFrasesNuevas(todo, dicho, false, turno);
+    }
+    if (conVoz) decirFrasesNuevas(todo, dicho, true, turno);
+  } catch (e) {
+    if (cuerpo.textContent === "…" || !cuerpo.textContent) cuerpo.parentElement.remove();
+    $("errorChat").textContent = e.message;
+  }
+  ocupar(false);
+  if (!porVoz) $("texto").focus();
+}
+
+async function empezar() {
+  $("errorInicio").textContent = "";
+  const r = await api("/api/sesiones", {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ colaborador_id: estado.elegido, idioma: estado.idioma, nombre: $("nombre").value }),
+  });
+  if (!r.ok) { $("errorInicio").textContent = await textoDeError(r); return; }
+  const datos = await r.json();
+  const c = elegido();
+  estado.sesion = datos.id; estado.colaborador = datos.colaborador;
+  $("colaborador").textContent = `${c.nombre} · ${c.puesto}`;
+  $("consigna").textContent = t("tenesQue") + c.calificacion_final;
+  const ficha = $("fichaChat");
+  ficha.replaceChildren(...["frente", "dorso"].map((lado) => { const i = crear("img"); i.src = c.imagenes[lado]; i.alt = c.nombre; return i; }));
+  ficha.hidden = true;
+  $("verFicha").textContent = t("verFicha");
+  $("mensajes").replaceChildren();
+  cerrarAvatar();
+  $("avatar").hidden = !(estado.avatar && estado.vozActiva);
+  mostrar("chat");
+  asegurarAvatar();  // conecta la cara mientras Claude prepara el saludo
+  hablar("");
+}
+
+function enviar() {
+  const texto = $("texto").value.trim();
+  if (!texto || estado.ocupado) return;
+  $("texto").value = "";
+  hablar(texto);
+}
+
+async function pedirPista() {
+  if (estado.ocupado) return;
+  ocupar(true);
+  const cuerpo = burbuja("coach", t("coach"), t("pensando"));
+  try {
+    const r = await api(`/api/sesiones/${estado.sesion}/pista`, { method: "POST" });
+    if (!r.ok) throw new Error(await textoDeError(r));
+    cuerpo.textContent = (await r.json()).texto;
+  } catch (e) {
+    cuerpo.parentElement.remove();
+    $("errorChat").textContent = e.message;
+  }
+  ocupar(false);
+}
+
+async function terminar() {
+  if (grabador) return;
+  callar();
+  cerrarAvatar();  // cada minuto de avatar conectado se cobra
+  ocupar(true);
+  $("errorChat").textContent = t("evaluando");
+  const r = await api(`/api/sesiones/${estado.sesion}/evaluacion`, { method: "POST" });
+  ocupar(false);
+  if (!r.ok) { $("errorChat").textContent = r.status === 400 ? t("corta") : await textoDeError(r); return; }
+  $("errorChat").textContent = "";
+  pintarDevolucion(await r.json());
+  mostrar("devolucion");
+}
+
+function pintarDevolucion(ev) {
+  const c = $("contenidoDevolucion");
+  c.replaceChildren();
+  const lista = (titulo, items) => {
+    const ul = crear("ul");
+    items.forEach((i) => ul.append(crear("li", "", i)));
+    c.append(crear("h2", "", titulo), ul);
+  };
+  c.append(crear("span", "sello " + ev.sello, ev.sello_texto), crear("div", "puntaje", `${String(ev.puntaje_general).replace(".", ",")} / 5`));
+  const calif = crear("p");
+  calif.append(crear("b", "", `${t("comunicada")}: `), document.createTextNode(ev.calificacion_comunicada),
+               document.createTextNode(" · "), crear("b", "", `${t("final")}: `), document.createTextNode(ev.calificacion_final));
+  c.append(calif, crear("h2", "", t("resultado")), crear("p", "", ev.resultado));
+
+  const trampa = crear("div", "trampa");
+  trampa.append(crear("div", "etiqueta", `${t("trampa")}: ${ev.trampa.nombre}`),
+                crear("p", "", `${ev.trampa.cayo ? "🪤 " + t("caiste") : "✅ " + t("noCaiste")}. ${ev.trampa.explicacion}`));
+  c.append(trampa);
+
+  lista(t("fortalezas"), ev.fortalezas);
+  lista(t("mejoras"), ev.mejoras);
+  c.append(crear("h2", "", t("momentos")));
+  for (const m of ev.momentos_clave) {
+    const d = crear("div", "momento");
+    const cita = crear("div"); cita.append(crear("b", "", t("dijiste") + ": "), crear("q", "", m.dijiste));
+    const alt = crear("div"); alt.append(crear("b", "", t("alternativa") + ": "), crear("span", "", m.alternativa));
+    d.append(cita, crear("div", "", m.efecto), alt);
+    c.append(d);
+  }
+  c.append(crear("h2", "", t("criterios")));
+  for (const cr of ev.criterios) {
+    const d = crear("div", "criterio"), b = crear("b");
+    b.append(crear("span", "", cr.nombre), crear("span", "", `${cr.puntaje}/5`));
+    d.append(b);
+    if (cr.cita) d.append(crear("q", "", cr.cita));
+    d.append(crear("div", "", cr.comentario));
+    c.append(d);
+  }
+  if (ev.lo_que_no_conto && ev.lo_que_no_conto.hecho) {
+    c.append(crear("h2", "", `🔒 ${t("noConto")}`), crear("p", "", ev.lo_que_no_conto.hecho));
+    if (ev.lo_que_no_conto.pregunta) {
+      const p = crear("p"); p.append(crear("b", "", `${t("preguntaClave")}: `), crear("q", "", ev.lo_que_no_conto.pregunta)); c.append(p);
+    }
+  }
+  if (ev.proximo && ev.proximo.nombre) c.append(crear("p", "", `➡️ ${t("proximo")} ${ev.proximo.nombre}: ${ev.proximo.motivo}`));
+  c.append(crear("p", "nota", `${t("pistasUsadas")}: ${ev.pistas || 0}`));
+}
+
+$("idiomas").onclick = (e) => { const b = e.target.closest("[data-idioma]"); if (b) { estado.idioma = b.dataset.idioma; estado.idiomaElegido = true; pintar(); } };
+$("volteo").onclick = () => { estado.dorso = !estado.dorso; pintarFicha(); };
+$("empezar").onclick = empezar;
+$("enviar").onclick = enviar;
+$("terminar").onclick = terminar;
+$("pista").onclick = pedirPista;
+$("microfono").onclick = microfono;
+$("verFicha").onclick = () => { const f = $("fichaChat"); f.hidden = !f.hidden; $("verFicha").textContent = f.hidden ? t("verFicha") : t("ocultarFicha"); };
+$("vozActiva").onclick = () => {
+  estado.vozActiva = !estado.vozActiva;
+  if (!estado.vozActiva) { callar(); cerrarAvatar(); }  // sin voz, la cara no tiene qué decir
+  $("avatar").hidden = !(estado.avatar && estado.vozActiva);
+  if (estado.vozActiva && estado.sesion && !$("chat").hidden) asegurarAvatar();
+  pintarVoz();
+};
+$("otra").onclick = () => { callar(); cerrarAvatar(); pintar(); mostrar("inicio"); };
+window.addEventListener("pagehide", cerrarAvatar);
+$("texto").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); enviar(); } });
+
+$("formAcceso").onsubmit = async (e) => {
+  e.preventDefault();
+  codigo = $("codigo").value.trim();
+  $("errorAcceso").textContent = "";
+  if (await cargarColaboradores()) { try { sessionStorage.setItem("codigo", codigo); } catch {} }
+  else $("errorAcceso").textContent = "Código incorrecto · Código incorreto";
+};
+
+pintar();
+cargarColaboradores();
+</script>
+</body>
+</html>

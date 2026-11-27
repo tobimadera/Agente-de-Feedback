@@ -50,6 +50,7 @@
   .grilla5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
   .grilla5 label { font-size: .8rem; font-weight: 600; text-align: center; }
   .grilla5 input { text-align: center; }
+  .grilla5 input.invalido { border-color: var(--mal); box-shadow: 0 0 0 1px var(--mal); }
   @media (max-width: 600px) { .grilla5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .comp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 220px); gap: 12px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--borde); }
   .bandas { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; margin-top: 10px; font-size: .78rem; text-align: center; }
@@ -222,6 +223,7 @@
         <h3 data-t="cGoals"></h3>
         <p class="nota" data-t="cGoalsNota"></p>
         <div class="grilla5" id="cpMetas"></div>
+        <p class="nota" id="cpMetasNota"></p>
 
         <h3 data-t="cCompetencias"></h3>
         <p class="nota" id="cpCompNota"></p>
@@ -306,7 +308,7 @@ const TEXTOS = {
     tuCaso: "Tu caso", notaCaso: "Con estos datos armamos a la persona con la que vas a conversar. El nombre es opcional y el género define la voz y el avatar.",
     cNombre: "Nombre del colaborador", cGenero: "Género", hombre: "Hombre", mujer: "Mujer",
     cSeniority: "Seniority", cTiempo: "Tiempo en el puesto (años)", cApertura: "Apertura al feedback",
-    cGoals: "Objetivos", cGoalsNota: "¿Cuántos objetivos tiene en cada categoría?",
+    cGoals: "Objetivos", cGoalsNota: "¿Cuántos objetivos tiene en cada categoría? Máximo {max} en total.", metasTotal: "Total: {n} de {max}.", metasDeMas: "Son {n} objetivos: el máximo es {max} en total.",
     cCompetencias: "Competencias", compNota5: "Hasta nivel Pleno se evalúan 5 competencias.", compNota6: "De Senior para arriba se suma Liderazgo.",
     elegiSeniority: "Elegí primero el seniority.",
     cOverall: "Evaluación final (Overall Evaluation)", cRating: "Overall Rating (opcional, 0 a 120)",
@@ -345,7 +347,7 @@ const TEXTOS = {
     tuCaso: "Seu caso", notaCaso: "Com esses dados montamos a pessoa com quem você vai conversar. O nome é opcional e o gênero define a voz e o avatar.",
     cNombre: "Nome do colaborador", cGenero: "Gênero", hombre: "Homem", mujer: "Mulher",
     cSeniority: "Senioridade", cTiempo: "Tempo no cargo (anos)", cApertura: "Abertura ao feedback",
-    cGoals: "Metas", cGoalsNota: "Quantas metas ele(a) tem em cada categoria?",
+    cGoals: "Metas", cGoalsNota: "Quantas metas ele(a) tem em cada categoria? Máximo {max} no total.", metasTotal: "Total: {n} de {max}.", metasDeMas: "São {n} metas: o máximo é {max} no total.",
     cCompetencias: "Competências", compNota5: "Até o nível Pleno são avaliadas 5 competências.", compNota6: "De Sênior para cima soma-se Liderança.",
     elegiSeniority: "Escolha primeiro a senioridade.",
     cOverall: "Avaliação final (Overall Evaluation)", cRating: "Overall Rating (opcional, 0 a 120)",
@@ -409,6 +411,7 @@ function pintar() {
   $("comenzar").hidden = !(estado.modo === "propio" || (estado.modo === "hr" && estado.elegido));
   pintarCartas();
   pintarFicha();
+  $("empezar").disabled = false;
   pintarCaso();
   if (estado.lider) $("quienPractica").textContent = `${t("practicasComo")} ${estado.lider.nombre}`;
   pintarVoz();
@@ -436,11 +439,19 @@ function pintarCaso() {
   if (!$("cpMetas").children.length) {
     t("escala").forEach((_, i) => {
       const l = crear("label"), n = crear("span"), inp = crear("input");
-      inp.type = "number"; inp.min = 0; inp.max = 20; inp.value = 0; inp.dataset.i = i;
+      inp.type = "number"; inp.min = 0; inp.max = o.max_objetivos; inp.value = 0; inp.dataset.i = i;
+      inp.addEventListener("input", pintarCaso);
       l.append(n, inp); $("cpMetas").append(l);
     });
   }
   [...$("cpMetas").children].forEach((l, i) => { l.firstChild.textContent = t("escala")[i]; });
+  // Tope de objetivos: la suma de todas las categorías no puede pasar de max_objetivos.
+  const total = totalMetas(), demas = total > o.max_objetivos;
+  document.querySelector('[data-t="cGoalsNota"]').textContent = fmt(t("cGoalsNota"), { max: o.max_objetivos });
+  $("cpMetasNota").textContent = fmt(t(demas ? "metasDeMas" : "metasTotal"), { n: total, max: o.max_objetivos });
+  $("cpMetasNota").classList.toggle("error", demas);
+  $("cpMetas").querySelectorAll("input").forEach((inp) => inp.classList.toggle("invalido", demas));
+  $("empezar").disabled = demas;
   // Competencias: 5 hasta Pleno, 6 de Senior para arriba.
   const sen = o.seniority.find((x) => x.id === $("cpSeniority").value);
   const claves = sen ? o.competencias.filter((k) => k !== "liderazgo" || sen.liderazgo) : [];
@@ -473,6 +484,8 @@ function pintarCaso() {
   }
   $("cpRatingNota").textContent = nota;
 }
+
+const totalMetas = () => [...$("cpMetas").querySelectorAll("input")].reduce((a, i) => a + Math.max(0, parseInt(i.value, 10) || 0), 0);
 
 function leerCaso() {
   const competencias = {};
@@ -829,6 +842,9 @@ async function empezar() {
   const propio = estado.modo === "propio";
   const caso = propio ? leerCaso() : null;
   if (propio && !caso) { $("errorInicio").textContent = t("faltaCaso"); return; }
+  if (propio && totalMetas() > estado.opcionesCaso.max_objetivos) {
+    $("errorInicio").textContent = fmt(t("metasDeMas"), { n: totalMetas(), max: estado.opcionesCaso.max_objetivos }); return;
+  }
   const r = await api("/api/sesiones", {
     method: "POST", headers: { "Content-Type": "application/json" },
     body: JSON.stringify(propio ? { caso, idioma: estado.idioma, nombre: $("nombre").value }

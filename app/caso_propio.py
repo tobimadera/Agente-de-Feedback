@@ -21,6 +21,8 @@ COMPETENCIAS = ["desafio", "entrega", "ensenanza_crecimiento", "cliente", "adapt
 NOMBRES_COMPETENCIA = {"desafio": "Desafío", "entrega": "Entrega", "ensenanza_crecimiento": "Enseñanza y Crecimiento",
                        "cliente": "Cliente", "adaptagilidad": "Adaptagilidad", "liderazgo": "Liderazgo"}
 
+MAX_OBJETIVOS = 4  # suma de todas las categorías
+
 # Bandas del Overall Rating (0 a 120) por calificación.
 BANDAS = [(0, 69), (70, 94), (95, 105), (106, 114), (115, 120)]
 
@@ -115,11 +117,14 @@ APERTURAS = {
     },
     "conformista": {
         "dificultad": "media", "sube": 0,
-        "tono": "Acepta todo rápido ('sí, está bien, tenés razón') sin cuestionar, pero sin comprometerse de verdad.",
-        "apertura": "Hola, sí, dale. Lo que vos digas está bien.",
+        "tono": ("Tiende a darle la razón al líder para evitar el roce: acepta casi todo con amabilidad y conversa con "
+                 "normalidad, comenta y hasta pregunta algo, pero se guarda los desacuerdos y propone poco por iniciativa "
+                 "propia. No es sumiso ni repite 'sí' a todo: suena como alguien tranquilo que prefiere no discutir."),
+        "apertura": "Hola, ¿cómo va? Bien, contame, te escucho.",
         "reacciones": [
-            {"si": "el líder da por bueno el acuerdo rápido", "entonces": "Dice que sí a todo y no se compromete con nada concreto."},
-            {"si": "el líder le pregunta qué piensa de verdad o le pide que proponga", "entonces": "Duda y termina diciendo con qué no está de acuerdo."},
+            {"si": "el líder le comunica la evaluación", "entonces": "La acepta sin discutir ('Ok, entiendo, tiene sentido'), quizás con un comentario breve sobre su año."},
+            {"si": "el líder da por bueno el acuerdo rápido o propone todo él", "entonces": "Acepta el plan con amabilidad, pero sin aportar ideas propias ni comprometerse con fechas concretas."},
+            {"si": "el líder le pregunta qué piensa de verdad o le pide que proponga", "entonces": "Duda un poco y después cuenta, con cuidado, en qué no está del todo de acuerdo y qué le gustaría hacer."},
         ],
         "lo_que_lo_abre": "Que el líder pida su opinión y acuerde acciones con fecha.",
         "lo_que_lo_cierra": "Que el líder hable solo y cierre rápido.",
@@ -178,6 +183,8 @@ def validar(caso: CasoPropio) -> str | None:
         return "Apertura al feedback inválida."
     if sum(caso.metas) < 1 or min(caso.metas) < 0:
         return "Indicá al menos un objetivo."
+    if sum(caso.metas) > MAX_OBJETIVOS:
+        return f"El máximo es {MAX_OBJETIVOS} objetivos en total."
     esperadas = [c for c in COMPETENCIAS if c != "liderazgo" or caso.seniority in CON_LIDERAZGO]
     if set(caso.competencias) != set(esperadas) or not all(1 <= v <= 5 for v in caso.competencias.values()):
         return "Completá la evaluación de todas las competencias."

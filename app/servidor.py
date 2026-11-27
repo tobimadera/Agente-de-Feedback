@@ -178,6 +178,7 @@ def opciones_caso_propio():
                       for k, v in caso_propio.APERTURAS.items()],
         "competencias": caso_propio.COMPETENCIAS,
         "bandas": caso_propio.BANDAS,
+        "max_objetivos": caso_propio.MAX_OBJETIVOS,
     }
 
 

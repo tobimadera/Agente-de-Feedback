@@ -19,10 +19,23 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse  # n
 from pydantic import BaseModel  # noqa: E402
 
 from app import avatar, caso_propio, informes, lideres, simulador, voz  # noqa: E402
+from app import carga  # noqa: E402
+
+if carga.activo():  # prueba de carga: proveedores simulados, sin costo
+    carga.activar(simulador, voz, avatar)
 
 MAX_AUDIO = 15 * 1024 * 1024  # un turno hablado de varios minutos entra holgado
 
 app = FastAPI(title="Entrenador de Feedback")
+
+
+@app.on_event("startup")
+async def mas_hilos():
+    """Cada respuesta en curso (texto o voz) ocupa un hilo mientras espera al proveedor. El tope por
+    defecto es 40, que con muchos líderes a la vez se vuelve el cuello de botella. Esos hilos casi no
+    usan CPU (esperan a Claude o a ElevenLabs), así que se puede subir sin costo."""
+    import anyio.to_thread
+    anyio.to_thread.current_default_thread_limiter().total_tokens = int(os.getenv("HILOS", "200"))
 SESIONES: dict[str, dict] = {}
 CARPETA_SESIONES = Path(os.getenv("DATOS_DIR") or RAIZ / "datos") / "sesiones"
 MARCA_ERROR = "\n[[ERROR]] "

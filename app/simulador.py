@@ -11,6 +11,8 @@ from statistics import mean
 import anthropic
 import yaml
 
+from app import caso_propio
+
 RAIZ = Path(__file__).resolve().parent.parent
 REFERENCIAS = RAIZ / "skills" / "agente-feedback" / "references"
 CARTAS = RAIZ / "skills" / "agente-feedback" / "assets" / "cartas"
@@ -102,6 +104,9 @@ def _lista(items) -> str:
 
 
 def instrucciones_personaje(ficha: dict, idioma: str, hablado: bool = False) -> str:
+    if ficha.get("tipo") == "propio":
+        return caso_propio.instrucciones(ficha, idioma, hablado,
+                                         ACENTO.get((idioma, ficha["pais"]), ""), IDIOMAS[idioma]["habla"])
     carta, p = ficha["carta"], ficha["personaje"]
     largo = (
         "La reunión es por voz: respondé en una a tres frases cortas, no más de 40 palabras en total, "
@@ -237,6 +242,9 @@ No reveles el nombre de la trampa de sesgo ni lo que el colaborador se guarda; o
 
 
 # ---------------------------------------------------------------- evaluación
+TRAMPA_PROPIO = (" Es un caso real cargado por el líder, sin trampa específica: considerá que cayó en la trampa si usa "
+                 "edad, género, licencias, salud o vida personal como argumento, etiquetas de personalidad en vez de "
+                 "hechos, el historial o la afinidad para justificar la nota, o si culpa al comité.")
 def esquema_evaluacion(criterios: list, ids: list[str]) -> dict:
     nombres = [c["nombre"] for c in criterios]
     momento = {
@@ -313,7 +321,7 @@ feedback de cierre de ciclo con {ficha['nombre']} ({ficha['puesto']}), que fue s
 # Escenario
 Calificación final calibrada que el líder tenía que comunicar: {practica['calificacion_final']}.
 Lo que se espera de esta conversación: {practica['objetivo']}
-Trampa de sesgo de esta carta: {practica['trampa']}.
+Trampa de sesgo de esta carta: {practica['trampa']}.{TRAMPA_PROPIO if ficha.get('tipo') == 'propio' else ''}
 Carta del colaborador (el líder la conocía):
 {yaml.safe_dump(ficha['carta'], allow_unicode=True, sort_keys=False)}
 Bitácora del líder (situaciones que conocía y podía usar):

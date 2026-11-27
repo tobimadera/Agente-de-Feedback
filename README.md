@@ -50,6 +50,28 @@ descomprimirlo en una carpeta, copiar ahí el `.env` del Entrenador de Ventas y 
 
 ## La práctica
 
+Al entrar se elige el idioma y el tipo de práctica:
+
+- **Casos Prácticos HR**: los 10 colaboradores de las cartas.
+- **Caso Propio**: el líder carga los datos de un colaborador real y practica esa conversación:
+  - nombre (opcional) y género, que eligen la voz y la cara;
+  - seniority (Adm, Junior, Pleno, Senior, Coordinador, Gerente, Gerente General, Director, RO);
+  - tiempo en el puesto;
+  - apertura al feedback (Receptivo, Reflexivo, Defensivo, Resistente, Sensible, Analítico, Pasivo,
+    Conformista, Desafiador);
+  - cantidad de objetivos por categoría;
+  - evaluación de cada competencia (5 hasta Pleno; de Senior para arriba se suma Liderazgo);
+  - evaluación final;
+  - Overall Rating opcional, de 0 a 120;
+  - contexto libre.
+
+  La apertura define cómo reacciona el colaborador. El seniority define qué comportamientos del manual TLAC
+  se usan en la devolución. El Overall Rating ubica a la persona en la banda (≤69 Insatisfactorio · 70–94
+  Necesita mejorar · 95–105 Cumple · 106–114 Supera · 115–120 Excepcional): parte baja, centro o parte alta.
+  El coach espera que el feedback lo refleje. RO usa los comportamientos de Director, porque el manual no
+  tiene un nivel propio. Opciones y perfiles: `app/caso_propio.py`.
+
+
 - **Elegir**: idioma de la conversación (español o portugués) y una carta. Se ve la carta (tocándola se da
   vuelta), la calificación a comunicar, la bitácora del líder y lo que el manual TLAC espera en su nivel.
 - **Conversar** por texto o por voz. **Pista** pide una sugerencia al coach para el próximo turno (queda

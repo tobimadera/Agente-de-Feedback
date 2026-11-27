@@ -18,7 +18,7 @@ from fastapi import FastAPI, File, HTTPException, Request, UploadFile  # noqa: E
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse  # noqa: E402
 from pydantic import BaseModel  # noqa: E402
 
-from app import avatar, informes, lideres, simulador, voz  # noqa: E402
+from app import avatar, caso_propio, informes, lideres, simulador, voz  # noqa: E402
 
 MAX_AUDIO = 15 * 1024 * 1024  # un turno hablado de varios minutos entra holgado
 
@@ -103,7 +103,8 @@ def buscar(sesion_id: str, request: Request) -> dict:
 
 
 class NuevaSesion(BaseModel):
-    colaborador_id: str
+    colaborador_id: str = ""  # una carta de HR…
+    caso: caso_propio.CasoPropio | None = None  # …o un caso propio
     idioma: str = "es"
     nombre: str = ""
 
@@ -167,6 +168,19 @@ def colaboradores():
     return [simulador.publico(c) for c in simulador.cargar_colaboradores().values()]
 
 
+@app.get("/api/caso-propio")
+def opciones_caso_propio():
+    """Las opciones del formulario de caso propio."""
+    return {
+        "seniority": [{"id": k, "nombre": v[0], "nivel": v[1], "liderazgo": k in caso_propio.CON_LIDERAZGO}
+                      for k, v in caso_propio.SENIORITY.items()],
+        "aperturas": [{"id": k, "nombre": caso_propio.NOMBRES_APERTURA[k], "descripcion": v["tono"]}
+                      for k, v in caso_propio.APERTURAS.items()],
+        "competencias": caso_propio.COMPETENCIAS,
+        "bandas": caso_propio.BANDAS,
+    }
+
+
 @app.get("/api/competencias")
 def competencias():
     return simulador.cargar_competencias()
@@ -174,9 +188,17 @@ def competencias():
 
 @app.post("/api/sesiones")
 def crear_sesion(datos: NuevaSesion, request: Request):
-    fichas = simulador.cargar_colaboradores()
-    if datos.colaborador_id not in fichas or datos.idioma not in simulador.IDIOMAS:
-        raise HTTPException(400, "Colaborador o idioma inválido.")
+    if datos.idioma not in simulador.IDIOMAS:
+        raise HTTPException(400, "Idioma inválido.")
+    if datos.caso:
+        if error := caso_propio.validar(datos.caso):
+            raise HTTPException(400, error)
+        ficha = caso_propio.armar_ficha(datos.caso, datos.idioma)
+    else:
+        fichas = simulador.cargar_colaboradores()
+        if datos.colaborador_id not in fichas:
+            raise HTTPException(400, "Colaborador inválido.")
+        ficha = fichas[datos.colaborador_id]
     lider = request.state.lider
     sesion = {
         "id": datetime.now().strftime("%Y%m%d-%H%M%S-") + uuid.uuid4().hex[:6],
@@ -184,8 +206,8 @@ def crear_sesion(datos: NuevaSesion, request: Request):
         "lider_id": lider["id"] if lider else None,
         "lider": lider["nombre"] if lider else datos.nombre.strip(),
         "idioma": datos.idioma,
-        "colaborador_id": datos.colaborador_id,
-        "ficha": fichas[datos.colaborador_id],  # copia de la ficha usada, por si después se edita
+        "colaborador_id": ficha["id"],
+        "ficha": ficha,  # copia de la ficha usada, por si después se edita
         "mensajes": [],
         "pistas": [],
         "evaluacion": None,

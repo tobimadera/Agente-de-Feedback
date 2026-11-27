@@ -35,6 +35,36 @@
   button:disabled { opacity: .5; cursor: default; }
   input, textarea { font: inherit; width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); }
   .etiqueta { font-size: .75rem; text-transform: uppercase; letter-spacing: .05em; opacity: .8; }
+  /* Tipo de práctica */
+  .modos { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+  button.modo { text-align: left; padding: 16px; border-width: 2px; }
+  button.modo strong { display: block; font-size: 1.1rem; }
+  button.modo small { display: block; color: var(--suave); margin-top: 4px; }
+  button.modo.activo { background: var(--panel); color: var(--texto); border-color: var(--acento); box-shadow: 0 0 0 2px var(--acento); }
+  /* Formulario del caso propio */
+  .caso label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: .95rem; }
+  .caso label.ancho { margin-top: 12px; }
+  .caso select { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); font-weight: 400; }
+  .caso input, .caso textarea { font-weight: 400; }
+  .campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
+  .grilla5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+  .grilla5 label { font-size: .8rem; font-weight: 600; text-align: center; }
+  .grilla5 input { text-align: center; }
+  @media (max-width: 600px) { .grilla5 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .comp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 220px); gap: 12px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--borde); }
+  .bandas { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 2px; margin-top: 10px; font-size: .78rem; text-align: center; }
+  .bandas div { padding: 6px 2px; border-radius: 4px; color: #1c2430; }
+  .bandas div b { display: block; font-size: .85rem; }
+  .bandas div.en { outline: 3px solid var(--texto); outline-offset: -3px; }
+  #fichaChat ul { margin: 0; }
+  .lado-cara.sin-retrato #retrato { display: none; }
+  #inicial { display: none; aspect-ratio: 1 / 1; border-radius: 12px; background: var(--otro);
+             flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+  #inicial span { width: 40%; aspect-ratio: 1 / 1; border-radius: 50%; background: var(--acento); color: var(--acento-texto);
+                  display: flex; align-items: center; justify-content: center; font-size: clamp(2rem, 8vw, 5rem); font-weight: 700; }
+  #inicial small { color: var(--suave); }
+  .lado-cara.sin-retrato #avatar[hidden] ~ #inicial { display: flex; }
+  @media (max-width: 760px) { #inicial { max-width: 220px; align-self: center; width: 100%; } }
   /* Grilla de cartas */
   #cartas { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
   .carta { padding: 0; border: 2px solid transparent; border-radius: 12px; overflow: hidden; background: none; text-align: left; }
@@ -143,6 +173,13 @@
           </svg>
         </button>
       </div>
+      <h2 data-t="tipoPractica"></h2>
+      <div class="modos" id="modos">
+        <button class="modo" data-modo="hr"><strong data-t="modoHR"></strong><small data-t="modoHRDetalle"></small></button>
+        <button class="modo" data-modo="propio"><strong data-t="modoPropio"></strong><small data-t="modoPropioDetalle"></small></button>
+      </div>
+
+      <div id="bloqueHR" hidden>
       <h2 data-t="elegi"></h2>
       <div id="cartas"></div>
 
@@ -165,6 +202,43 @@
             <details><summary id="fichaNivel"></summary><div id="fichaCompetencias"></div></details>
           </div>
         </div>
+      </div>
+      </div>
+
+      <!-- Caso propio: el líder carga los datos de un colaborador real -->
+      <form id="bloquePropio" class="caso" hidden autocomplete="off">
+        <h2 data-t="tuCaso"></h2>
+        <p class="nota" data-t="notaCaso"></p>
+        <div class="campos">
+          <label><span data-t="cNombre"></span><input id="cpNombre" maxlength="40"></label>
+          <label><span data-t="cGenero"></span>
+            <select id="cpGenero"><option value="m" data-t="hombre"></option><option value="f" data-t="mujer"></option></select></label>
+          <label><span data-t="cSeniority"></span><select id="cpSeniority" required></select></label>
+          <label><span data-t="cTiempo"></span><input id="cpTiempo" type="number" min="0" max="60" step="0.5" required></label>
+        </div>
+        <label class="ancho"><span data-t="cApertura"></span><select id="cpApertura" required></select>
+          <small class="nota" id="cpAperturaDetalle"></small></label>
+
+        <h3 data-t="cGoals"></h3>
+        <p class="nota" data-t="cGoalsNota"></p>
+        <div class="grilla5" id="cpMetas"></div>
+
+        <h3 data-t="cCompetencias"></h3>
+        <p class="nota" id="cpCompNota"></p>
+        <div id="cpCompetencias"></div>
+
+        <div class="campos">
+          <label><span data-t="cOverall"></span><select id="cpOverall" required></select></label>
+          <label><span data-t="cRating"></span><input id="cpRating" type="number" min="0" max="120" step="0.1"></label>
+        </div>
+        <div class="bandas" id="cpBandas"></div>
+        <p class="nota" id="cpRatingNota"></p>
+
+        <label class="ancho"><span data-t="cContexto"></span>
+          <textarea id="cpContexto" rows="4" maxlength="2000"></textarea></label>
+      </form>
+
+      <div id="comenzar" hidden>
         <div id="bloqueNombre">
           <h2 data-t="tuNombre"></h2>
           <input id="nombre" autocomplete="off">
@@ -196,6 +270,7 @@
           <div id="estadoAvatar"></div>
         </div>
         <img id="retrato" alt="">
+        <div id="inicial" aria-hidden="true"><span id="inicialLetra"></span><small id="inicialTexto"></small></div>
         <div class="botones-grandes">
           <button class="grande principal" id="microfono" hidden></button>
           <button class="grande" id="terminar" data-t="terminar"></button>
@@ -226,6 +301,22 @@ const TEXTOS = {
   es: {
     titulo: "Entrenador de Feedback", subtitulo: "Practicá la conversación de cierre de ciclo con un colaborador y recibí una devolución.",
     idioma: "Idioma de la conversación", elegi: "Elegí con quién practicar",
+    tipoPractica: "¿Con qué querés practicar?", modoHR: "Casos Prácticos HR", modoHRDetalle: "Los 10 colaboradores de las cartas de calibración.",
+    modoPropio: "Caso Propio", modoPropioDetalle: "Cargá los datos de un colaborador real y practicá esa conversación.",
+    tuCaso: "Tu caso", notaCaso: "Con estos datos armamos a la persona con la que vas a conversar. El nombre es opcional: podés dejarlo en blanco.",
+    cNombre: "Nombre del colaborador (opcional)", cGenero: "Género (para la voz y el avatar)", hombre: "Hombre", mujer: "Mujer",
+    cSeniority: "Seniority", cTiempo: "Tiempo en el puesto (años)", cApertura: "Apertura al feedback",
+    cGoals: "Objetivos", cGoalsNota: "¿Cuántos objetivos tiene en cada categoría?",
+    cCompetencias: "Competencias", compNota5: "Hasta nivel Pleno se evalúan 5 competencias.", compNota6: "De Senior para arriba se suma Liderazgo.",
+    elegiSeniority: "Elegí primero el seniority.",
+    cOverall: "Evaluación final (Overall Evaluation)", cRating: "Overall Rating (opcional, 0 a 120)",
+    cContexto: "Contexto (opcional): situaciones concretas del año, una por línea",
+    elegi2: "Elegí…", ratingEn: "Rating {r}: {pos} de {banda}.", ratingDistinto: "Ojo: ese rating corresponde a {banda}, no a {final}.",
+    baja_banda: "parte baja", centro_banda: "centro", alta_banda: "parte alta",
+    faltaCaso: "Completá seniority, tiempo en el puesto, apertura al feedback, al menos un objetivo y la evaluación final.",
+    casoPropio: "Caso propio", resumenCaso: "Resumen del caso",
+    escala: ["Insatisfactorio", "Necesita mejorar", "Cumple", "Supera", "Excepcional"],
+    comp: { desafio: "Desafío", entrega: "Entrega", ensenanza_crecimiento: "Enseñanza y Crecimiento", cliente: "Cliente", adaptagilidad: "Adaptagilidad", liderazgo: "Liderazgo" },
     tocaParaVoltear: "Tocá la carta para darla vuelta.", aComunicar: "Calificación final calibrada que tenés que comunicar",
     notaCalibrada: "Es la decisión del comité de calibración. Asumila como tuya.",
     bitacora: "Tu bitácora: lo que observaste en el año", competenciasNivel: "Qué se espera en su nivel",
@@ -249,6 +340,22 @@ const TEXTOS = {
     sinMic: "No se pudo usar el micrófono. Revisá el permiso del navegador.", nadaOido: "No se entendió el audio. Probá de nuevo.",
   },
   pt: {
+    tipoPractica: "Com o que você quer praticar?", modoHR: "Casos Práticos RH", modoHRDetalle: "Os 10 colaboradores das cartas de calibração.",
+    modoPropio: "Caso Próprio", modoPropioDetalle: "Preencha os dados de um colaborador real e pratique essa conversa.",
+    tuCaso: "Seu caso", notaCaso: "Com esses dados montamos a pessoa com quem você vai conversar. O nome é opcional.",
+    cNombre: "Nome do colaborador (opcional)", cGenero: "Gênero (para a voz e o avatar)", hombre: "Homem", mujer: "Mulher",
+    cSeniority: "Senioridade", cTiempo: "Tempo no cargo (anos)", cApertura: "Abertura ao feedback",
+    cGoals: "Metas", cGoalsNota: "Quantas metas ele(a) tem em cada categoria?",
+    cCompetencias: "Competências", compNota5: "Até o nível Pleno são avaliadas 5 competências.", compNota6: "De Sênior para cima soma-se Liderança.",
+    elegiSeniority: "Escolha primeiro a senioridade.",
+    cOverall: "Avaliação final (Overall Evaluation)", cRating: "Overall Rating (opcional, 0 a 120)",
+    cContexto: "Contexto (opcional): situações concretas do ano, uma por linha",
+    elegi2: "Escolha…", ratingEn: "Rating {r}: {pos} de {banda}.", ratingDistinto: "Atenção: esse rating corresponde a {banda}, não a {final}.",
+    baja_banda: "parte baixa", centro_banda: "centro", alta_banda: "parte alta",
+    faltaCaso: "Preencha senioridade, tempo no cargo, abertura ao feedback, pelo menos uma meta e a avaliação final.",
+    casoPropio: "Caso próprio", resumenCaso: "Resumo do caso",
+    escala: ["Insatisfatório", "Precisa melhorar", "Atende", "Supera", "Excepcional"],
+    comp: { desafio: "Desafio", entrega: "Entrega", ensenanza_crecimiento: "Ensinar e Crescer", cliente: "Cliente", adaptagilidad: "Adaptagilidade", liderazgo: "Liderança" },
     titulo: "Treinador de Feedback", subtitulo: "Pratique a conversa de fechamento de ciclo com um colaborador e receba um feedback.",
     idioma: "Idioma da conversa", elegi: "Escolha com quem praticar",
     tocaParaVoltear: "Toque na carta para virá-la.", aComunicar: "Avaliação final calibrada que você deve comunicar",
@@ -279,7 +386,8 @@ const estado = { idioma: "es", elegido: null, colaboradores: [], competencias: n
                  ocupado: false, voz: false, vozActiva: true, turno: 0, dorso: false };
 let grabador = null, audioActual = null;
 const idioma = () => estado.idioma;
-const t = (clave) => TEXTOS[idioma()][clave] ?? clave;
+const t = (clave) => TEXTOS[idioma()][clave] ?? TEXTOS.es[clave] ?? clave;
+const fmt = (texto, datos) => texto.replace(/\{(\w+)\}/g, (_, k) => datos[k] ?? "");
 
 function crear(etiqueta, clase, texto) {
   const e = document.createElement(etiqueta);
@@ -295,10 +403,91 @@ function pintar() {
   document.querySelectorAll("[data-t]").forEach((e) => (e.textContent = t(e.dataset.t)));
   document.querySelectorAll("[data-idioma]").forEach((b) => b.classList.toggle("activo", b.dataset.idioma === estado.idioma));
   $("texto").placeholder = t("escribi");
+  document.querySelectorAll("[data-modo]").forEach((b) => b.classList.toggle("activo", b.dataset.modo === estado.modo));
+  $("bloqueHR").hidden = estado.modo !== "hr";
+  $("bloquePropio").hidden = estado.modo !== "propio";
+  $("comenzar").hidden = !(estado.modo === "propio" || (estado.modo === "hr" && estado.elegido));
   pintarCartas();
   pintarFicha();
+  pintarCaso();
   if (estado.lider) $("quienPractica").textContent = `${t("practicasComo")} ${estado.lider.nombre}`;
   pintarVoz();
+}
+
+// ---------------------------------------------------------------- caso propio
+const BANDA_COLOR = ["#f2c4a0", "#f6dd8a", "#d9ecb8", "#7fb35a", "#3f7d3a"];
+const opcion = (valor, texto) => new Option(texto, valor);
+function llenar(select, opciones, conVacio = true) {
+  const actual = select.value;
+  select.replaceChildren(...(conVacio ? [opcion("", t("elegi2"))] : []), ...opciones.map(([v, txt]) => opcion(v, txt)));
+  if (conVacio) select.options[0].disabled = true;
+  select.value = [...select.options].some((o) => o.value === actual) ? actual : (conVacio ? "" : select.options[0].value);
+}
+function bandaDe(r) { return estado.opcionesCaso.bandas.findIndex(([bajo, alto]) => r <= alto); }
+function pintarCaso() {
+  const o = estado.opcionesCaso;
+  if (!o || estado.modo !== "propio") return;
+  llenar($("cpSeniority"), o.seniority.map((x) => [x.id, x.nombre]));
+  llenar($("cpApertura"), o.aperturas.map((x) => [x.id, x.nombre]));
+  llenar($("cpOverall"), t("escala").map((n, i) => [String(i + 1), n]));
+  const ap = o.aperturas.find((x) => x.id === $("cpApertura").value);
+  $("cpAperturaDetalle").textContent = ap ? ap.descripcion : "";
+  // Objetivos: una casilla por categoría.
+  if (!$("cpMetas").children.length) {
+    t("escala").forEach((_, i) => {
+      const l = crear("label"), n = crear("span"), inp = crear("input");
+      inp.type = "number"; inp.min = 0; inp.max = 20; inp.value = 0; inp.dataset.i = i;
+      l.append(n, inp); $("cpMetas").append(l);
+    });
+  }
+  [...$("cpMetas").children].forEach((l, i) => { l.firstChild.textContent = t("escala")[i]; });
+  // Competencias: 5 hasta Pleno, 6 de Senior para arriba.
+  const sen = o.seniority.find((x) => x.id === $("cpSeniority").value);
+  const claves = sen ? o.competencias.filter((k) => k !== "liderazgo" || sen.liderazgo) : [];
+  const previas = estado.compCaso || {};
+  $("cpCompNota").textContent = sen ? (sen.liderazgo ? t("compNota6") : t("compNota5")) : t("elegiSeniority");
+  $("cpCompetencias").replaceChildren(...claves.map((k) => {
+    const fila = crear("div", "comp"), sel = crear("select");
+    llenar(sel, t("escala").map((n, i) => [String(i + 1), n]), false);
+    sel.value = String(previas[k] || 3);
+    sel.onchange = () => { estado.compCaso = { ...(estado.compCaso || {}), [k]: Number(sel.value) }; };
+    sel.dataset.comp = k;
+    fila.append(crear("span", "", t("comp")[k]), sel);
+    return fila;
+  }));
+  // Referencia de bandas del Overall Rating y dónde cae el valor cargado.
+  const r = parseFloat($("cpRating").value), hay = !Number.isNaN(r) && r >= 0 && r <= 120;
+  const en = hay ? bandaDe(r) : -1;
+  $("cpBandas").replaceChildren(...o.bandas.map(([bajo, alto], i) => {
+    const d = crear("div", i === en ? "en" : ""); d.style.background = BANDA_COLOR[i];
+    d.append(crear("b", "", t("escala")[i]), crear("span", "", i === 0 ? `≤${alto}` : `${bajo}–${alto}`));
+    return d;
+  }));
+  let nota = "";
+  if (hay) {
+    const [bajo, alto] = o.bandas[en], tercio = (r - bajo) / Math.max(alto - bajo, 1);
+    const pos = tercio < 1 / 3 ? t("baja_banda") : tercio > 2 / 3 ? t("alta_banda") : t("centro_banda");
+    nota = fmt(t("ratingEn"), { r, pos, banda: t("escala")[en] });
+    const final = Number($("cpOverall").value);
+    if (final && final - 1 !== en) nota += " " + fmt(t("ratingDistinto"), { banda: t("escala")[en], final: t("escala")[final - 1] });
+  }
+  $("cpRatingNota").textContent = nota;
+}
+
+function leerCaso() {
+  const competencias = {};
+  $("cpCompetencias").querySelectorAll("select").forEach((s) => { competencias[s.dataset.comp] = Number(s.value); });
+  const metas = [...$("cpMetas").querySelectorAll("input")].map((i) => Math.max(0, parseInt(i.value, 10) || 0));
+  const rating = parseFloat($("cpRating").value);
+  const caso = {
+    nombre: $("cpNombre").value.trim(), genero: $("cpGenero").value, seniority: $("cpSeniority").value,
+    anios_en_puesto: parseFloat($("cpTiempo").value), apertura: $("cpApertura").value, metas, competencias,
+    evaluacion_final: Number($("cpOverall").value), rating: Number.isNaN(rating) ? null : rating,
+    contexto: $("cpContexto").value,
+  };
+  const completo = caso.seniority && !Number.isNaN(caso.anios_en_puesto) && caso.apertura && caso.evaluacion_final
+    && metas.reduce((a, b) => a + b, 0) > 0 && Object.keys(competencias).length;
+  return completo ? caso : null;
 }
 
 function pintarCartas() {
@@ -361,6 +550,7 @@ async function cargarColaboradores() {
   if (!r.ok) return false;
   estado.colaboradores = await r.json();
   try { estado.competencias = await (await api("/api/competencias")).json(); } catch {}
+  try { estado.opcionesCaso = await (await api("/api/caso-propio")).json(); } catch {}
   try {
     const config = await (await api("/api/config")).json();
     estado.voz = config.voz === true;
@@ -636,20 +826,42 @@ async function hablar(texto, porVoz = false) {
 
 async function empezar() {
   $("errorInicio").textContent = "";
+  const propio = estado.modo === "propio";
+  const caso = propio ? leerCaso() : null;
+  if (propio && !caso) { $("errorInicio").textContent = t("faltaCaso"); return; }
   const r = await api("/api/sesiones", {
     method: "POST", headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ colaborador_id: estado.elegido, idioma: estado.idioma, nombre: $("nombre").value }),
+    body: JSON.stringify(propio ? { caso, idioma: estado.idioma, nombre: $("nombre").value }
+                                : { colaborador_id: estado.elegido, idioma: estado.idioma, nombre: $("nombre").value }),
   });
   if (!r.ok) { $("errorInicio").textContent = await textoDeError(r); return; }
   const datos = await r.json();
-  const c = elegido();
   estado.sesion = datos.id; estado.colaborador = datos.colaborador;
-  $("colaborador").textContent = `${c.nombre} · ${c.puesto}`;
-  $("consigna").textContent = t("tenesQue") + c.calificacion_final;
   const ficha = $("fichaChat");
-  ficha.replaceChildren(...["frente", "dorso"].map((lado) => { const i = crear("img"); i.src = c.imagenes[lado]; i.alt = c.nombre; return i; }));
+  if (propio) {
+    const sen = estado.opcionesCaso.seniority.find((x) => x.id === caso.seniority).nombre;
+    const final = t("escala")[caso.evaluacion_final - 1];
+    $("colaborador").textContent = `${caso.nombre || t("casoPropio")} · ${sen}`;
+    $("consigna").textContent = t("tenesQue") + final + ($("cpRatingNota").textContent ? ` · ${$("cpRatingNota").textContent}` : "");
+    const ul = crear("ul"), item = (txt) => ul.append(crear("li", "", txt));
+    item(`${t("cTiempo")}: ${caso.anios_en_puesto}`);
+    item(`${t("cApertura")}: ${$("cpApertura").selectedOptions[0].text}`);
+    item(`${t("cGoals")}: ${caso.metas.map((n, i) => n ? `${n} ${t("escala")[i]}` : "").filter(Boolean).join(", ")}`);
+    item(`${t("cCompetencias")}: ${Object.entries(caso.competencias).map(([k, v]) => `${t("comp")[k]} ${t("escala")[v - 1]}`).join(" · ")}`);
+    caso.contexto.split("\n").filter((l) => l.trim()).forEach((l) => item(l.trim()));
+    ficha.replaceChildren(crear("h3", "", t("resumenCaso")), ul);
+    $("retrato").removeAttribute("src");
+    $("inicialLetra").textContent = (caso.nombre || t("casoPropio")).trim().charAt(0).toUpperCase();
+    $("inicialTexto").textContent = `${caso.nombre || t("casoPropio")} · ${sen}`;
+  } else {
+    const c = elegido();
+    $("colaborador").textContent = `${c.nombre} · ${c.puesto}`;
+    $("consigna").textContent = t("tenesQue") + c.calificacion_final;
+    ficha.replaceChildren(...["frente", "dorso"].map((lado) => { const i = crear("img"); i.src = c.imagenes[lado]; i.alt = c.nombre; return i; }));
+    $("retrato").src = c.imagenes.frente; $("retrato").alt = c.nombre;
+  }
+  document.querySelector(".lado-cara").classList.toggle("sin-retrato", propio);
   ficha.hidden = true;
-  $("retrato").src = c.imagenes.frente; $("retrato").alt = c.nombre;
   $("verFicha").textContent = t("verFicha");
   $("mensajes").replaceChildren();
   cerrarAvatar();
@@ -746,6 +958,10 @@ function pintarDevolucion(ev) {
 $("idiomas").onclick = (e) => { const b = e.target.closest("[data-idioma]"); if (b) { estado.idioma = b.dataset.idioma; estado.idiomaElegido = true; pintar(); } };
 $("volteo").onclick = () => { estado.dorso = !estado.dorso; pintarFicha(); };
 $("empezar").onclick = empezar;
+$("modos").onclick = (e) => { const b = e.target.closest("[data-modo]"); if (b) { estado.modo = b.dataset.modo; pintar(); } };
+$("bloquePropio").onsubmit = (e) => e.preventDefault();
+["cpSeniority", "cpApertura", "cpOverall"].forEach((id) => $(id).addEventListener("change", pintarCaso));
+$("cpRating").addEventListener("input", pintarCaso);
 $("enviar").onclick = enviar;
 $("terminar").onclick = terminar;
 $("pista").onclick = pedirPista;

@@ -46,7 +46,7 @@
   .caso label.ancho { margin-top: 12px; }
   .caso select { font: inherit; padding: 10px 12px; border-radius: 8px; border: 1px solid var(--borde); background: var(--panel); color: var(--texto); font-weight: 400; }
   .caso input, .caso textarea { font-weight: 400; }
-  .campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
+  .campos { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; align-items: end; }
   .grilla5 { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
   .grilla5 label { font-size: .8rem; font-weight: 600; text-align: center; }
   .grilla5 input { text-align: center; }
@@ -303,8 +303,8 @@ const TEXTOS = {
     idioma: "Idioma de la conversación", elegi: "Elegí con quién practicar",
     tipoPractica: "¿Con qué querés practicar?", modoHR: "Casos Prácticos HR", modoHRDetalle: "Los 10 colaboradores de las cartas de calibración.",
     modoPropio: "Caso Propio", modoPropioDetalle: "Cargá los datos de un colaborador real y practicá esa conversación.",
-    tuCaso: "Tu caso", notaCaso: "Con estos datos armamos a la persona con la que vas a conversar. El nombre es opcional: podés dejarlo en blanco.",
-    cNombre: "Nombre del colaborador (opcional)", cGenero: "Género (para la voz y el avatar)", hombre: "Hombre", mujer: "Mujer",
+    tuCaso: "Tu caso", notaCaso: "Con estos datos armamos a la persona con la que vas a conversar. El nombre es opcional y el género define la voz y el avatar.",
+    cNombre: "Nombre del colaborador", cGenero: "Género", hombre: "Hombre", mujer: "Mujer",
     cSeniority: "Seniority", cTiempo: "Tiempo en el puesto (años)", cApertura: "Apertura al feedback",
     cGoals: "Objetivos", cGoalsNota: "¿Cuántos objetivos tiene en cada categoría?",
     cCompetencias: "Competencias", compNota5: "Hasta nivel Pleno se evalúan 5 competencias.", compNota6: "De Senior para arriba se suma Liderazgo.",
@@ -342,8 +342,8 @@ const TEXTOS = {
   pt: {
     tipoPractica: "Com o que você quer praticar?", modoHR: "Casos Práticos RH", modoHRDetalle: "Os 10 colaboradores das cartas de calibração.",
     modoPropio: "Caso Próprio", modoPropioDetalle: "Preencha os dados de um colaborador real e pratique essa conversa.",
-    tuCaso: "Seu caso", notaCaso: "Com esses dados montamos a pessoa com quem você vai conversar. O nome é opcional.",
-    cNombre: "Nome do colaborador (opcional)", cGenero: "Gênero (para a voz e o avatar)", hombre: "Homem", mujer: "Mulher",
+    tuCaso: "Seu caso", notaCaso: "Com esses dados montamos a pessoa com quem você vai conversar. O nome é opcional e o gênero define a voz e o avatar.",
+    cNombre: "Nome do colaborador", cGenero: "Gênero", hombre: "Homem", mujer: "Mulher",
     cSeniority: "Senioridade", cTiempo: "Tempo no cargo (anos)", cApertura: "Abertura ao feedback",
     cGoals: "Metas", cGoalsNota: "Quantas metas ele(a) tem em cada categoria?",
     cCompetencias: "Competências", compNota5: "Até o nível Pleno são avaliadas 5 competências.", compNota6: "De Sênior para cima soma-se Liderança.",
